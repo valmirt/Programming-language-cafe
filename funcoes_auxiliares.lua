@@ -131,27 +131,25 @@ function dfa_regular ()
 	dfa[1][17] = 18
 	dfa[1][18] = 19
 	dfa[1][19] = 20
-	dfa[1][20] = false
+	dfa[1][20] = 1
 	
 	--Estado s2
-	for i = 1, 19 do
-		dfa[2][i] = 22
+	for i = 1, 20 do
+		dfa[2][i] = 1
 	end
-	dfa[2][20] = false
 	
 	--Estado s3
-	dfa[3][1] = 22
-	dfa[3][2] = 22
-	dfa[3][3] = 22
-	dfa[3][4] = 22
+	dfa[3][1] = 1
+	dfa[3][2] = 1
+	dfa[3][3] = 1
+	dfa[3][4] = 1
 	dfa[3][5] = 3
 	dfa[3][6] = 4
 	dfa[3][7] = 6
 	dfa[3][8] = 6
-	for i = 9, 19 do
-		dfa[3][i] = 22
+	for i = 9, 20 do
+		dfa[3][i] = 1
 	end
-	dfa[3][20] = false
 	
 	--Estado s4
 	dfa[4][1] = 22
@@ -159,24 +157,22 @@ function dfa_regular ()
 	dfa[4][3] = 22
 	dfa[4][4] = 22
 	dfa[4][5] = 5
-	for i = 6, 19 do
+	for i = 6, 20 do
 		dfa[4][i] = 22
 	end
-	dfa[4][20] = false
 	
 	--Estado s5
-	dfa[5][1] = 22
-	dfa[5][2] = 22
-	dfa[5][3] = 22
-	dfa[5][4] = 22
+	dfa[5][1] = 1
+	dfa[5][2] = 1
+	dfa[5][3] = 1
+	dfa[5][4] = 1
 	dfa[5][5] = 5
-	dfa[5][6] = 22
+	dfa[5][6] = 1
 	dfa[5][7] = 6
 	dfa[5][8] = 6
-	for i = 9, 19 do
-		dfa[5][i] = 22
+	for i = 9, 20 do
+		dfa[5][i] = 1
 	end
-	dfa[5][20] = false
 	
 	--Estado s6
 	dfa[6][1] = 7
@@ -184,10 +180,9 @@ function dfa_regular ()
 	dfa[6][3] = 22
 	dfa[6][4] = 22
 	dfa[6][5] = 8
-	for i = 6, 19 do
+	for i = 6, 20 do
 		dfa[6][i] = 22
 	end
-	dfa[6][20] = false
 	
 	--Estado s7
 	dfa[7][1] = 22
@@ -195,37 +190,34 @@ function dfa_regular ()
 	dfa[7][3] = 22
 	dfa[7][4] = 22
 	dfa[7][5] = 8
-	for i = 6, 19 do
+	for i = 6, 20 do
 		dfa[7][i] = 22
 	end
-	dfa[7][20] = false
 		
 	--Estado s8
-	dfa[8][1] = 22
-	dfa[8][2] = 22
-	dfa[8][3] = 22
-	dfa[8][4] = 22
+	dfa[8][1] = 1
+	dfa[8][2] = 1
+	dfa[8][3] = 1
+	dfa[8][4] = 1
 	dfa[8][5] = 8
-	for i = 6, 19 do
-		dfa[8][i] = 22
+	for i = 6, 20 do
+		dfa[8][i] = 1
 	end
-	dfa[8][20] = false
 	
 	--Estado s9
-	dfa[9][1] = 22
-	dfa[9][2] = 22
-	dfa[9][3] = 22
-	dfa[9][4] = 22
+	dfa[9][1] = 1
+	dfa[9][2] = 1
+	dfa[9][3] = 1
+	dfa[9][4] = 1
 	dfa[9][5] = 9
-	dfa[9][6] = 22
+	dfa[9][6] = 1
 	dfa[9][7] = 9
 	dfa[9][8] = 9
 	dfa[9][9] = 9
 	dfa[9][10] = 9
-	for i = 11, 19 do
-		dfa[9][i] = 22
+	for i = 11, 20 do
+		dfa[9][i] = 1
 	end
-	dfa[9][20] = false
 	
 	--Estado s10
 	for i = 1, 12 do
@@ -237,10 +229,9 @@ function dfa_regular ()
 	end
 	
 	--Estado s11
-	for i = 1, 19 do
-		dfa[11][i] = 22
+	for i = 1, 20 do
+		dfa[11][i] = 1
 	end
-	dfa[11][20] = false
 	
 	--Estado s12
 	for i = 1, 11 do
@@ -252,74 +243,64 @@ function dfa_regular ()
 	end
 	
 	--Estado s13
-	for i = 1, 19 do
-		dfa[13][i] = 22
+	for i = 1, 20 do
+		dfa[13][i] = 1
 	end
-	dfa[13][20] = false
 	
 	--Estado s14
 	for i = 1, 14 do
-		dfa[14][i] = 22
+		dfa[14][i] = 1
 	end
 	dfa[14][15] = 16
-	for i = 16, 19 do
-		dfa[14][i] = 22
+	for i = 16, 20 do
+		dfa[14][i] = 1
 	end
-	dfa[14][20] = false
 	
 	--Estado s15
-	dfa[15][1] = 22
+	dfa[15][1] = 1
 	dfa[15][2] = 17
 	for i = 3, 13 do
-		dfa[15][i] = 22
+		dfa[15][i] = 1
 	end
 	dfa[15][14] = 16
-	for i = 15, 19 do
-		dfa[15][i] = 22
+	for i = 15, 20 do
+		dfa[15][i] = 1
 	end
-	dfa[15][20] = false
 	
 	--Estado s16
-	for i = 1, 19 do
-		dfa[16][i] = 22
+	for i = 1, 20 do
+		dfa[16][i] = 1
 	end
-	dfa[16][20] = false
 	
 	--Estado s17
-	for i = 1, 19 do
-		dfa[17][i] = 22
+	for i = 1, 20 do
+		dfa[17][i] = 1
 	end
-	dfa[17][20] = false
 	
 	--Estado s18
-	for i = 1, 19 do
-		dfa[18][i] = 22
+	for i = 1, 20 do
+		dfa[18][i] = 1
 	end
-	dfa[18][20] = false
 		
 	--Estado s19
-	for i = 1, 19 do
-		dfa[19][i] = 22
+	for i = 1, 20 do
+		dfa[19][i] = 1
 	end
-	dfa[19][20] = false
 	
 	--Estado s20
-	for i = 1, 19 do
-		dfa[20][i] = 22
+	for i = 1, 20 do
+		dfa[20][i] = 1
 	end
-	dfa[20][20] = false
 	
 	--Estado s21
-	for i = 1, 19 do
-		dfa[21][i] = 22
+	for i = 1, 20 do
+		dfa[21][i] = 1
 	end
-	dfa[21][20] = false
 	
 	--Estado s22
-	for i = 1, 19 do
+	for i = 1, 20 do
 		dfa[22][i] = 22
 	end
-	dfa[22][20] = false
 	
 	return dfa
 end
