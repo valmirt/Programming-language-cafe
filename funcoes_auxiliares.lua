@@ -132,6 +132,7 @@ function dfa_regular ()
 	dfa[1][18] = 19
 	dfa[1][19] = 20
 	dfa[1][20] = 1
+	dfa[1][21] = 22
 	
 	--Estado s2
 	for i = 1, 20 do
@@ -147,7 +148,7 @@ function dfa_regular ()
 	dfa[3][6] = 4
 	dfa[3][7] = 6
 	dfa[3][8] = 6
-	for i = 9, 20 do
+	for i = 9, 21 do
 		dfa[3][i] = 1
 	end
 	
@@ -157,7 +158,7 @@ function dfa_regular ()
 	dfa[4][3] = 22
 	dfa[4][4] = 22
 	dfa[4][5] = 5
-	for i = 6, 20 do
+	for i = 6, 21 do
 		dfa[4][i] = 22
 	end
 	
@@ -170,7 +171,7 @@ function dfa_regular ()
 	dfa[5][6] = 1
 	dfa[5][7] = 6
 	dfa[5][8] = 6
-	for i = 9, 20 do
+	for i = 9, 21 do
 		dfa[5][i] = 1
 	end
 	
@@ -180,7 +181,7 @@ function dfa_regular ()
 	dfa[6][3] = 22
 	dfa[6][4] = 22
 	dfa[6][5] = 8
-	for i = 6, 20 do
+	for i = 6, 21 do
 		dfa[6][i] = 22
 	end
 	
@@ -190,7 +191,7 @@ function dfa_regular ()
 	dfa[7][3] = 22
 	dfa[7][4] = 22
 	dfa[7][5] = 8
-	for i = 6, 20 do
+	for i = 6, 21 do
 		dfa[7][i] = 22
 	end
 		
@@ -200,7 +201,7 @@ function dfa_regular ()
 	dfa[8][3] = 1
 	dfa[8][4] = 1
 	dfa[8][5] = 8
-	for i = 6, 20 do
+	for i = 6, 21 do
 		dfa[8][i] = 1
 	end
 	
@@ -215,7 +216,7 @@ function dfa_regular ()
 	dfa[9][8] = 9
 	dfa[9][9] = 9
 	dfa[9][10] = 9
-	for i = 11, 20 do
+	for i = 11, 21 do
 		dfa[9][i] = 1
 	end
 	
@@ -224,12 +225,12 @@ function dfa_regular ()
 		dfa[10][i] = 10
 	end
 	dfa[10][13] = 11
-	for i = 14, 20 do
+	for i = 14, 21 do
 		dfa[10][i] = 10
 	end
 	
 	--Estado s11
-	for i = 1, 20 do
+	for i = 1, 21 do
 		dfa[11][i] = 1
 	end
 	
@@ -238,7 +239,7 @@ function dfa_regular ()
 		dfa[12][i] = 12
 	end
 	dfa[12][12] = 13
-	for i = 13, 20 do
+	for i = 13, 21 do
 		dfa[12][i] = 12
 	end
 	
@@ -252,7 +253,7 @@ function dfa_regular ()
 		dfa[14][i] = 1
 	end
 	dfa[14][15] = 16
-	for i = 16, 20 do
+	for i = 16, 21 do
 		dfa[14][i] = 1
 	end
 	
@@ -263,42 +264,42 @@ function dfa_regular ()
 		dfa[15][i] = 1
 	end
 	dfa[15][14] = 16
-	for i = 15, 20 do
+	for i = 15, 21 do
 		dfa[15][i] = 1
 	end
 	
 	--Estado s16
-	for i = 1, 20 do
+	for i = 1, 21 do
 		dfa[16][i] = 1
 	end
 	
 	--Estado s17
-	for i = 1, 20 do
+	for i = 1, 21 do
 		dfa[17][i] = 1
 	end
 	
 	--Estado s18
-	for i = 1, 20 do
+	for i = 1, 21 do
 		dfa[18][i] = 1
 	end
 		
 	--Estado s19
-	for i = 1, 20 do
+	for i = 1, 21 do
 		dfa[19][i] = 1
 	end
 	
 	--Estado s20
-	for i = 1, 20 do
+	for i = 1, 21 do
 		dfa[20][i] = 1
 	end
 	
 	--Estado s21
-	for i = 1, 20 do
+	for i = 1, 21 do
 		dfa[21][i] = 1
 	end
 	
 	--Estado s22
-	for i = 1, 20 do
+	for i = 1, 21 do
 		dfa[22][i] = 22
 	end
 	

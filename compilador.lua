@@ -10,6 +10,8 @@
 dofile('funcoes_auxiliares.lua')
 local erro = false
 local is_end = false
+--Popula a tabela de simbolos com as palavras reservadas
+local tabela_simbolos = palavras_reservadas()
 
 function analisador_sintatico()
 	local tabela_tokens = {}
@@ -49,6 +51,17 @@ function analisador_sintatico()
 			print ('Tipo =', tabela_tokens[i].tipo)
 			print ()
 		end
+	end
+	
+	print ('\n\n------------TABELA DE SIMBOLOS-----------------')
+	--Imprime os tokens da tabela de simbolos 
+	for i = 1, #tabela_simbolos do
+		print ('------------------------------------')
+		print (i)
+		print ('Token = '..tabela_simbolos[i].token) 
+		print ('Lexema = '..tabela_simbolos[i].lexema) 
+		print ('Tipo =', tabela_simbolos[i].tipo)
+		print ()
 	end
 end
 
@@ -167,7 +180,7 @@ function analisador_lexico (j)
 			buffer.estado_atual = dfa[buffer.estado_atual][20]
 		--Caracteres : e \ que vão no comentario ou literal
 		elseif string.byte(buffer.entrada) == 58 or string.byte(buffer.entrada) == 92 then
-		--Qualquer caractere não listado
+			buffer.estado_atual = dfa[buffer.estado_atual][21]
 		else
 			print ('Erro! caractere inválido na posição '.. i..' do arquivo')
 			erro = true
@@ -245,9 +258,8 @@ end
 
 --Função que verifica se o token é uma palavra reservada
 function compara_token (t)
-	--Popula a tabela de simbolos com as palavras reservadas
-	local tabela_simbolos = palavras_reservadas()
 	local aux = t
+	local flag = false
 	
 	if aux ~= false then
 		if aux.token == 'id' then
@@ -255,8 +267,13 @@ function compara_token (t)
 			for i = 1, #tabela_simbolos do
 				if tabela_simbolos[i].lexema == aux.lexema then
 					aux = tabela_simbolos[i]
+					flag = true
 					break
 				end
+			end
+			--Insere o id antes nao encontrado na tabela de simbolos
+			if flag == false then
+				table.insert(tabela_simbolos, aux)
 			end
 		end
 	end
