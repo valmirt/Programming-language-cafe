@@ -23,18 +23,6 @@ function analisador_sintatico()
 		local aux, i = analisador_lexico (j)
 		j = i
 		
-		--Verifica se ja existe na tabela de tokens
-		--[[local jaTem = false
-				
-		for i = 1, #tabela_tokens do
-			if tabela_tokens[i].lexema == aux.lexema then
-				jaTem = true
-			end
-		end
-		if jaTem == false and aux ~= false then
-			table.insert(tabela_tokens, aux)
-		end]]
-		
 		--Insere um token por vez ignorando o espaço
 		if aux ~= false then
 			table.insert(tabela_tokens, aux)
