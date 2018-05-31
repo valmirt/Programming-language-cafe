@@ -32,26 +32,11 @@ function analisador_sintatico()
 	
 	if erro == false then
 		--Imprime os tokens encontrados no arquivo Mgol.txt 
-		for i = 1, #tabela_tokens do
-			print ('------------------------------------')
-			print (i)
-			print ('Token = '..tabela_tokens[i].token) 
-			print ('Lexema = '..tabela_tokens[i].lexema) 
-			print ('Tipo =', tabela_tokens[i].tipo)
-			print ()
-		end
+		print_tabela_tokens (tabela_tokens)
 	end
 	
-	print ('\n\n------------TABELA DE SIMBOLOS-----------------')
 	--Imprime os tokens da tabela de simbolos 
-	for i = 1, #tabela_simbolos do
-		print ('------------------------------------')
-		print (i)
-		print ('Token = '..tabela_simbolos[i].token) 
-		print ('Lexema = '..tabela_simbolos[i].lexema) 
-		print ('Tipo =', tabela_simbolos[i].tipo)
-		print ()
-	end
+	print_tabela_simbolos (tabela_simbolos)
 end
 
 local quebra_linha = 1

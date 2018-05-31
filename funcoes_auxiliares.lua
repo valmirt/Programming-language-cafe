@@ -32,3 +32,30 @@ function compara_final ()
 	
 	return string
 end
+
+function print_tabela_tokens (tabela_tokens)
+	--Imprime os tokens encontrados no arquivo Mgol.txt 
+	for i = 1, #tabela_tokens do
+		print ('------------------------------------')
+		print (i)
+		print ('Token = '..tabela_tokens[i].token) 
+		print ('Lexema = '..tabela_tokens[i].lexema) 
+		print ('Tipo =', tabela_tokens[i].tipo)
+		print ()
+	end
+end
+
+function print_tabela_simbolos (tabela_simbolos)
+	--Imprime os tokens da tabela de simbolos 
+	print ('\n\n------------TABELA DE SIMBOLOS-----------------')
+	for i = 1, #tabela_simbolos do
+		print ('------------------------------------')
+		print (i)
+		print ('Token = '..tabela_simbolos[i].token) 
+		print ('Lexema = '..tabela_simbolos[i].lexema) 
+		print ('Tipo =', tabela_simbolos[i].tipo)
+		print ()
+	end
+end
+	
+
