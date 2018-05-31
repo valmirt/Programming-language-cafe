@@ -3,11 +3,12 @@
 		
 	Compilador feito em lua que dado um arquivo em Mgol é convertido
 	para linguagem C.
-	
-	-Primeira parte Analisador Léxico-
 ]]
 
 dofile('funcoes_auxiliares.lua')
+dofile('funcoes_lexico.lua')
+dofile('funcoes_sintatico.lua')
+
 local erro = false
 local is_end = false
 --Popula a tabela de simbolos com as palavras reservadas
