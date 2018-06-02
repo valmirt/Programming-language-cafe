@@ -1,5 +1,5 @@
 --[[Valmir Torres de Jesus Junior		128745
-	Compiladores 07-05-2018
+	Compiladores 31-05-2018
 		
 	Compilador feito em lua que dado um arquivo em Mgol é convertido
 	para linguagem C.
@@ -8,6 +8,7 @@
 dofile('funcoes_auxiliares.lua')
 dofile('funcoes_lexico.lua')
 dofile('funcoes_sintatico.lua')
+dofile('stack.lua')
 
 local erro = false
 local is_end = false
@@ -24,19 +25,20 @@ function analisador_sintatico()
 		local aux, i = analisador_lexico (j)
 		j = i
 		
-		--Insere um token por vez ignorando o espaço
 		if aux ~= false then
+			--Insere um token por vez ignorando o espaço
 			table.insert(tabela_tokens, aux)
+			
+			
 		end
 	end
-	
-	if erro == false then
+	--[[if erro == false then
 		--Imprime os tokens encontrados no arquivo Mgol.txt 
 		print_tabela_tokens (tabela_tokens)
-	end
+	end]]
 	
-	--Imprime os tokens da tabela de simbolos 
-	print_tabela_simbolos (tabela_simbolos)
+	--[[--Imprime os tokens da tabela de simbolos 
+	print_tabela_simbolos (tabela_simbolos)]]
 end
 
 local quebra_linha = 1
