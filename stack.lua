@@ -5,7 +5,7 @@
 	para linguagem C.
 	
 	-Stack Table-
-	Disponível em: http://lua-users.org/wiki/SimpleStack
+	Original disponível em: http://lua-users.org/wiki/SimpleStack
 ]]
 
 -- GLOBAL
@@ -54,6 +54,11 @@ function Stack:Create()
     --recupera as entradas
     function t:getn()
         return #self._et
+    end
+    
+    --recupera o valor do topo da pilha
+    function t:topo()
+        return self._et[#self._et]
     end
 
     -- lista os valores da pilha

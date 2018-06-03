@@ -7,43 +7,6 @@
 	-Funções necessárias para o analisador sintático-
 ]]
 
-function gramatica_glc ()
-	--Gramatica livre de contexto da linguagem Mgol
-	local glc = {
-		[1] = 'S -> P',
-		[2] = 'P -> inicio V A',
-		[3] = 'V -> varinicio LV',
-		[4] = 'LV -> D LV',
-		[5] = 'LV -> varfim;',
-		[6] = 'D -> id TIPO;',
-		[7] = 'TIPO -> int',
-		[8] = 'TIPO -> real',
-		[9] = 'TIPO -> literal',
-		[10] = 'A -> ES A',
-		[11] = 'ES -> leia id;',
-		[12] = 'ES -> escreva ARG;',
-		[13] = 'ARG -> literal',
-		[14] = 'ARG -> num',
-		[15] = 'ARG -> id',
-		[16] = 'A -> CMD A',
-		[17] = 'CMD -> id rcb LD;',
-		[18] = 'LD -> OPRD opm OPRD',
-		[19] = 'LD -> OPRD',
-		[20] = 'OPRD -> id',
-		[21] = 'OPRD -> num',
-		[22] = 'A -> COND A',
-		[23] = 'COND -> CABEÇALHO CORPO',
-		[24] = 'CABEÇALHO -> se (EXP_R) entao',
-		[25] = 'EXP_R -> OPRD opr OPRD',
-		[26] = 'CORPO -> ES CORPO',
-		[27] = 'CORPO -> CMD CORPO',
-		[28] = 'CORPO -> COND CORPO',
-		[29] = 'CORPO -> fimse',
-		[30] = 'A -> fim', 
-	}
-	
-	return glc
-end
 
 --Tabela Sintática Shift/Reduce
 function tabela_sintatica_sr ()
@@ -159,7 +122,7 @@ function tabela_sintatica_sr ()
 	tabela_shift_reduce[14][36] = { ['operacao'] = nil, ['estado'] = 29,} --nao-terminal CORPO
 	
 	--Estado 15
-	tabela_shift_reduce[15][15] = { ['operacao'] = 'Shift', [2] = 33,} -- terminal (
+	tabela_shift_reduce[15][15] = { ['operacao'] = 'Shift', ['estado'] = 33,} -- terminal (
 	
 	--Estado 16 --Estado de redução
 	tabela_shift_reduce[16][8] = { ['operacao'] = 'Reduce', ['estado'] = 3,} --termial leia
@@ -169,18 +132,18 @@ function tabela_sintatica_sr ()
 	tabela_shift_reduce[16][20] = { ['operacao'] = 'Reduce', ['estado'] = 3,} --termial fim
 	
 	--Estado 17
-	tabela_shift_reduce[17][3] = { ['operacao'] = 'Shift', [2] = 18,} -- terminal varfim
-	tabela_shift_reduce[17][9] = { ['operacao'] = 'Shift', [2] = 19,} -- terminal id
+	tabela_shift_reduce[17][3] = { ['operacao'] = 'Shift', ['estado'] = 18,} -- terminal varfim
+	tabela_shift_reduce[17][9] = { ['operacao'] = 'Shift', ['estado'] = 19,} -- terminal id
 	tabela_shift_reduce[17][25] = { ['operacao'] = nil, ['estado'] = 34,} --nao-terminal LV
 	tabela_shift_reduce[17][26] = { ['operacao'] = nil, ['estado'] = 17,} --nao-terminal D
 	
 	--Estado 18
-	tabela_shift_reduce[18][4] = { ['operacao'] = 'Shift', [2] = 35,} -- terminal ;
+	tabela_shift_reduce[18][4] = { ['operacao'] = 'Shift', ['estado'] = 35,} -- terminal ;
 	
 	--Estado 19
-	tabela_shift_reduce[19][5] = { ['operacao'] = 'Shift', [2] = 37,} -- terminal varfim
-	tabela_shift_reduce[19][6] = { ['operacao'] = 'Shift', [2] = 38,} -- terminal varfim
-	tabela_shift_reduce[19][7] = { ['operacao'] = 'Shift', [2] = 39,} -- terminal varfim
+	tabela_shift_reduce[19][5] = { ['operacao'] = 'Shift', ['estado'] = 37,} -- terminal varfim
+	tabela_shift_reduce[19][6] = { ['operacao'] = 'Shift', ['estado'] = 38,} -- terminal varfim
+	tabela_shift_reduce[19][7] = { ['operacao'] = 'Shift', ['estado'] = 39,} -- terminal varfim
 	tabela_shift_reduce[19][27] = { ['operacao'] = nil, ['estado'] = 36,} --nao-terminal TIPO
 	
 	--Estado 20 --Estado de redução--
@@ -193,10 +156,10 @@ function tabela_sintatica_sr ()
 	tabela_shift_reduce[22][21] = { ['operacao'] = 'Reduce', ['estado'] = 22,} --termial $
 	
 	--Estado 23
-	tabela_shift_reduce[23][4] = { ['operacao'] = 'Shift', [2] = 40,} -- terminal ;
+	tabela_shift_reduce[23][4] = { ['operacao'] = 'Shift', ['estado'] = 40,} -- terminal ;
 	
 	--Estado 24
-	tabela_shift_reduce[24][4] = { ['operacao'] = 'Shift', [2] = 59,} -- terminal ;
+	tabela_shift_reduce[24][4] = { ['operacao'] = 'Shift', ['estado'] = 59,} -- terminal ;
 	
 	--Estado 25 --Estado de redução
 	tabela_shift_reduce[25][4] = { ['operacao'] = 'Reduce', ['estado'] = 13,} --termial ;
@@ -208,8 +171,8 @@ function tabela_sintatica_sr ()
 	tabela_shift_reduce[27][4] = { ['operacao'] = 'Reduce', ['estado'] = 15,} --termial ;
 	
 	--Estado 28
-	tabela_shift_reduce[28][9] = { ['operacao'] = 'Shift', [2] = 43,} -- terminal id
-	tabela_shift_reduce[28][11] = { ['operacao'] = 'Shift', [2] = 44,} -- terminal num
+	tabela_shift_reduce[28][9] = { ['operacao'] = 'Shift', ['estado'] = 43,} -- terminal id
+	tabela_shift_reduce[28][11] = { ['operacao'] = 'Shift', ['estado'] = 44,} -- terminal num
 	tabela_shift_reduce[28][31] = { ['operacao'] = nil, ['estado'] = 41,} --nao-terminal LD
 	tabela_shift_reduce[28][32] = { ['operacao'] = nil, ['estado'] = 42,} --nao-terminal OPRD
 	
@@ -258,8 +221,8 @@ function tabela_sintatica_sr ()
 	tabela_shift_reduce[32][36] = { ['operacao'] = nil, ['estado'] = 47,} --nao-terminal CORPO
 	
 	--Estado 33
-	tabela_shift_reduce[33][9] = { ['operacao'] = 'Shift', [2] = 43,} -- terminal id
-	tabela_shift_reduce[33][11] = { ['operacao'] = 'Shift', [2] = 44,} -- terminal num
+	tabela_shift_reduce[33][9] = { ['operacao'] = 'Shift', ['estado'] = 43,} -- terminal id
+	tabela_shift_reduce[33][11] = { ['operacao'] = 'Shift', ['estado'] = 44,} -- terminal num
 	tabela_shift_reduce[33][32] = { ['operacao'] = nil, ['estado'] = 49,} --nao-terminal OPRD
 	tabela_shift_reduce[33][35] = { ['operacao'] = nil, ['estado'] = 48,} --nao-terminal EXP_R
 	
@@ -359,16 +322,16 @@ function tabela_sintatica_sr ()
 	tabela_shift_reduce[51][20] = { ['operacao'] = 'Reduce', ['estado'] = 17,} --termial fim
 	
 	--Estado 52
-	tabela_shift_reduce[52][9] = { ['operacao'] = 'Shift', [2] = 43,} -- terminal id
-	tabela_shift_reduce[52][11] = { ['operacao'] = 'Shift', [2] = 44,} -- terminal num
+	tabela_shift_reduce[52][9] = { ['operacao'] = 'Shift', ['estado'] = 43,} -- terminal id
+	tabela_shift_reduce[52][11] = { ['operacao'] = 'Shift', ['estado'] = 44,} -- terminal num
 	tabela_shift_reduce[52][32] = { ['operacao'] = nil, ['estado'] = 55,} --nao-terminal OPRD
 	
 	--Estado 53
-	tabela_shift_reduce[53][17] = { ['operacao'] = 'Shift', [2] = 56,} -- terminal entao
+	tabela_shift_reduce[53][17] = { ['operacao'] = 'Shift', ['estado'] = 56,} -- terminal entao
 	
 	--Estado 54
-	tabela_shift_reduce[54][9] = { ['operacao'] = 'Shift', [2] = 43,} -- terminal id
-	tabela_shift_reduce[54][11] = { ['operacao'] = 'Shift', [2] = 44,} -- terminal num
+	tabela_shift_reduce[54][9] = { ['operacao'] = 'Shift', ['estado'] = 43,} -- terminal id
+	tabela_shift_reduce[54][11] = { ['operacao'] = 'Shift', ['estado'] = 44,} -- terminal num
 	tabela_shift_reduce[54][32] = { ['operacao'] = nil, ['estado'] = 57,} --nao-terminal OPRD
 	
 	--Estado 55 --Estado de redução

@@ -238,7 +238,8 @@ function dfa_regular ()
 		dfa[15][i] = 1
 	end
 	dfa[15][14] = 16
-	for i = 15, 21 do
+	dfa[15][15] = 16
+	for i = 16, 21 do
 		dfa[15][i] = 1
 	end
 	
