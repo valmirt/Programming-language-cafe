@@ -20,7 +20,29 @@ function tabela_sintatica_sr ()
 	--indice 1-21 = terminais
 	--indice 22-36 = nao-terminais
 	for i = 1, 59 do 
-		for j = 1, 36 do
+		--Tabela com descrição dos erros sintáticos para auxílio da depuração do programador de mgol
+		tabela_shift_reduce[i][1] = { ['operacao'] = 'Erro! Bad syntax... inicio disposto de forma incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][2] = { ['operacao'] = 'Erro! Bad syntax... varinicio disposto de forma incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][3] = { ['operacao'] = 'Erro! Bad syntax... varfim disposto de forma incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][4] = { ['operacao'] = 'Erro! Bad syntax... caractere ; disposto de forma incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][5] = { ['operacao'] = 'Erro! Bad syntax... declaração inteiro incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][6] = { ['operacao'] = 'Erro! Bad syntax... declaração real incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][7] = { ['operacao'] = 'Erro! Bad syntax... declaração literal incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][8] = { ['operacao'] = 'Erro! Bad syntax... operação leia disposto de forma incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][9] = { ['operacao'] = 'Erro! Bad syntax... id disposto de forma incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][10] = { ['operacao'] = 'Erro! Bad syntax... operação escreva incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][11] = { ['operacao'] = 'Erro! Bad syntax... número descrito de forma incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][12] = { ['operacao'] = 'Erro! Bad syntax... descrito na atribuição.', ['estado'] = nil,}
+		tabela_shift_reduce[i][13] = { ['operacao'] = 'Erro! Bad syntax... operador aritmético incorreto.', ['estado'] = nil,}
+		tabela_shift_reduce[i][14] = { ['operacao'] = 'Erro! Bad syntax... estrutura de seleção incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][15] = { ['operacao'] = 'Erro! Bad syntax... caractere ( descrito de forma incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][16] = { ['operacao'] = 'Erro! Bad syntax... caractere ) descrito de forma incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][17] = { ['operacao'] = 'Erro! Bad syntax... estrutura de seleção incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][18] = { ['operacao'] = 'Erro! Bad syntax... operador relacional incorreto.', ['estado'] = nil,}
+		tabela_shift_reduce[i][19] = { ['operacao'] = 'Erro! Bad syntax... estrutura de seleção incorreta.', ['estado'] = nil,}
+		tabela_shift_reduce[i][20] = { ['operacao'] = 'Erro! Bad syntax... fim disposto de forma incorreta', ['estado'] = nil,}
+		tabela_shift_reduce[i][21] = { ['operacao'] = 'Erro! Bad syntax...', ['estado'] = nil,}
+		for j = 22, 36 do
 			tabela_shift_reduce[i][j] = { ['operacao'] = 'Erro! Bad syntax...', ['estado'] = nil,}
 		end
 	end
