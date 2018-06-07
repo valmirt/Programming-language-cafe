@@ -77,7 +77,7 @@ function analisador_sintatico()
 				local nao_terminal
 				for k, v in pairs (tb_nao_terminais) do
 					if alfa == v then
-						nao_terminal = k + 21
+						nao_terminal = k + 22
 						break
 					end
 				end
@@ -87,6 +87,8 @@ function analisador_sintatico()
 			elseif tabela_sr[topo][terminal].operacao == 'Aceita!' then
 				controle_acc = true
 				--Aceitou toda sintaxe do código
+				--Esse print é só pra completar os prints das regras
+				print('S -> P')
 				print(tabela_sr[topo][terminal].operacao)
 			else print(tabela_sr[topo	][terminal].operacao) break --Algum erro de sintaxe
 			end

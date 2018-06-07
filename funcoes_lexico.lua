@@ -60,13 +60,13 @@ function palavras_reservadas ()
 			['tipo'] = nil,
 		},
 		[11] = {
-			['token'] = 'inteiro',
-			['lexema'] = 'inteiro',
+			['token'] = 'int',
+			['lexema'] = 'int',
 			['tipo'] = nil,
 		},
 		[12] = {
-			['token'] = 'literal',
-			['lexema'] = 'literal',
+			['token'] = 'lit',
+			['lexema'] = 'lit',
 			['tipo'] = nil,
 		},
 		[13] = {
