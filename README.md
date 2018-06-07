@@ -14,7 +14,7 @@ Informações do projeto:
   * D -> id TIPO;
   * TIPO -> int
   * TIPO -> real
-  * TIPO -> literal
+  * TIPO -> lit
   * A -> ES A
   * ES -> leia id;
   * ES -> escreva ARG;
