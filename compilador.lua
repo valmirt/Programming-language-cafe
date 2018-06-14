@@ -90,6 +90,7 @@ function analisador_sintatico()
 				--Esse print é só pra completar os prints das regras
 				print('S -> P')
 				print(tabela_sr[topo][terminal].operacao)
+				--Analisador Semântico será implementado aqui
 			else print(tabela_sr[topo	][terminal].operacao) break --Algum erro de sintaxe
 			end
 			
