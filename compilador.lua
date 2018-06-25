@@ -12,9 +12,12 @@ dofile('funcoes_semantico.lua')
 dofile('stack.lua')
 
 erro = false
+erro_semantico = false
 is_end = false
 --Popula a tabela de simbolos com as palavras reservadas
 tabela_simbolos = palavras_reservadas()
+--Define os atributos dos não-terminais
+nao_terminais = atributos_nterminais()
 
 function start_compilador()
 	local file 

@@ -78,7 +78,8 @@ function analisador_sintatico(content)
 				local estado = tabela_sr[topo][nao_terminal].estado
 				pilha:push(alfa, estado)
 				--Chama o analisador semantico que atribui a regra semantica dirida pela sintaxe
-				 content = analisador_semantico(content, temp_estado)
+				 content = analisador_semantico(content, temp_estado, aux)
+				 if erro_semantico then break end --Sai direto no erro vindo pelo analisador_semantico
 			elseif tabela_sr[topo][terminal].operacao == 'Aceita!' then
 				controle_acc = true
 				--Aceitou toda sintaxe do código
