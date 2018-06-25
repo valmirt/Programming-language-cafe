@@ -1,3 +1,14 @@
+{
+	Valmir Torres de Jesus Junior
+	Compiladores 24-06-2018
+		
+	Compilador feito em lua que dado um arquivo em Mgol e convertido
+	para linguagem C.
+	
+	-Arquivo de texto que sera traduzido-
+}
+
+
 inicio
 	varinicio
 		A lit;
@@ -5,8 +16,6 @@ inicio
 		D int;
 		C real;
 	varfim;
-	
-	{Comentario teste}
 	
 	escreva "Digite B: ";
 	leia B;

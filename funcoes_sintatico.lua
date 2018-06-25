@@ -1,12 +1,109 @@
---[[Valmir Torres de Jesus Junior		128745
-	Compiladores 30-05-2018
+--[[Valmir Torres de Jesus Junior
+	Compiladores 24-06-2018
 		
 	Compilador feito em lua que dado um arquivo em Mgol é convertido
 	para linguagem C.
 	
-	-Funções necessárias para o analisador sintático-
+	-Funções necessárias e o analisador sintático-
 ]]
 
+function analisador_sintatico(content)
+	local glc = gramatica_glc()
+	local tb_terminais = lista_de_terminais()
+	local tb_nao_terminais = lista_de_nao_terminais()
+	local tabela_sr = tabela_sintatica_sr()
+	local tabela_tokens = {}
+	local j = 1
+	local aux, i
+	local controle_recuce = false
+	local controle_acc = false
+	local pilha = Stack:Create()
+	pilha:push(1)
+	
+	while true do
+		if not controle_reduce then
+			--Recebe tabela com token, lexema e tipo definidos
+			--Recebe também o ponteiro que percorre o arquivo
+			if not is_end and not erro then
+				aux, i = analisador_lexico (j)
+				j = i
+				if aux ~= false then table.insert(tabela_tokens, aux) end
+				if erro then break end --Se deu erro sai direto
+			elseif is_end then aux = {['token'] = '$'} end--Indicando o fim do arquivo
+		end
+		
+		local topo = pilha:topo()
+		
+		--Ignora tab, espaco, \n e comentario
+		if aux ~= false and aux.token ~= 'comentario' then
+			--Definindo o numero q representa o terminal de acordo
+			--com a construção da tabela shift/reduce
+			local terminal
+			for k, v in pairs (tb_terminais) do
+				if aux.token == v then
+					terminal = k
+					break
+				end
+			end
+			
+			if tabela_sr[topo][terminal].operacao == 'Shift' then
+				controle_reduce = false
+				--Empilha o terminal e o estado
+				pilha:push (aux.token, tabela_sr[topo][terminal].estado)
+			elseif tabela_sr[topo][terminal].operacao == 'Reduce' then
+				controle_reduce = true
+				local temp_estado = tabela_sr[topo][terminal].estado
+				--Printa a regra a ser reduzida
+				local regra = glc[tabela_sr[topo][terminal].estado].regra..' ->'
+				for k, v in pairs (glc[tabela_sr[topo][terminal].estado].producao) do
+					regra = regra..' '..v
+				end
+				print(regra)
+				--Regra GLC: alfa -> beta
+				--Elimina os 2*|beta| elementos da pilha
+				local alfa = glc[tabela_sr[topo][terminal].estado].regra
+				local beta = #glc[tabela_sr[topo][terminal].estado].producao
+				pilha:pop(2*beta)
+				--Atualiza o topo
+				topo = pilha:topo()
+				
+				local nao_terminal
+				for k, v in pairs (tb_nao_terminais) do
+					if alfa == v then
+						nao_terminal = k + 22
+						break
+					end
+				end
+				--Insere o alfa e o estado da tabela shift/reduce
+				local estado = tabela_sr[topo][nao_terminal].estado
+				pilha:push(alfa, estado)
+				--Chama o analisador semantico que atribui a regra semantica dirida pela sintaxe
+				 content = analisador_semantico(content, temp_estado)
+			elseif tabela_sr[topo][terminal].operacao == 'Aceita!' then
+				controle_acc = true
+				--Aceitou toda sintaxe do código
+				--Esse print é só pra completar os prints das regras
+				print('S -> P')
+				print(tabela_sr[topo][terminal].operacao)
+			else print(tabela_sr[topo	][terminal].operacao) break --Algum erro de sintaxe
+			end
+			
+			if controle_acc then
+				if is_end then break end --depois de fazer a ultima execucao sai do while
+			end
+		end
+	end
+	--[[if erro == false then
+		--Imprime os tokens encontrados no arquivo Mgol.txt 
+		print_tabela_tokens (tabela_tokens)
+	end]]
+	
+	--[[--Imprime os tokens da tabela de simbolos 
+	print_tabela_simbolos (tabela_simbolos)]]
+	
+	--Retorna o arquivo que contem o codigo .c	
+	return content
+end
 
 --Tabela Sintática Shift/Reduce
 function tabela_sintatica_sr ()
