@@ -14,6 +14,8 @@ inicio
 		B int;
 		D int;
 		C real;
+		E int;
+		F int;
 	varfim;
 
 	escreva "Digite B: ";
@@ -32,6 +34,8 @@ inicio
 	B <- B + 3;
 	D <- B;
 	C <- 5.0;
+	E <- C + B;
+	F <- 4 + 3;
 
 	escreva "\nB = ";
 	escreva D;
