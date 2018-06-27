@@ -33,10 +33,11 @@ inicio
 	D <- B;
 	C <- 5.0;
 
-	escreva "\n B = \n";
+	escreva "\nB = ";
 	escreva D;
 	escreva "\n";
 	escreva C;
 	escreva "\n";
 	escreva A;
+	escreva "\n";
 fim
