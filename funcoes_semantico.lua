@@ -17,6 +17,7 @@ function analisador_semantico (file, regra, producao)
 		else table.insert(n_terminal, producao[i])
 		end
 	end
+
 	print(regra)
 
 	--Para cada regra da gramática temos um bloco de regras semânticas a ser executada
@@ -70,7 +71,9 @@ function analisador_semantico (file, regra, producao)
 		elseif n_terminal[1].tipo == 'int' then
 			file = file..'printf("%d", '..n_terminal[1].lexema..');\n'
 		elseif n_terminal[1].tipo == 'real' then
-			file = file..'printf("%1f", '..n_terminal[1].lexema..');\n'
+			file = file..'printf("%1.f", '..n_terminal[1].lexema..');\n'
+		elseif n_terminal[1].tipo == 'literal' then
+			file = file..'printf('..n_terminal[1].lexema..');\n'
 		end
 	elseif regra == 13 or regra == 14 then
 		print('Atribui os atributos do terminal a ARG')
@@ -122,13 +125,14 @@ function analisador_semantico (file, regra, producao)
 	elseif regra == 18 then
 		print('Verifica se algum dos operandos é do tipo literal')
 		print('Caso nao seja, é gerado uma variável temporária como resultado da operação')
+		--n_terminal[1] = oprd
 		if n_terminal[1].tipo == 'int' or n_terminal[1].tipo == 'real' and
 			n_terminal[2].tipo == 'int' or n_terminal[2].tipo == 'real' then
 			num_temp = num_temp + 1
 			local t = n_terminal[2].lexema..' '..terminal[1].tipo..' '..n_terminal[1].lexema
 
 			nao_terminais.LD.tipo = n_terminal[1].tipo
-			nao_terminais.LD.lexema = t
+			nao_terminais.LD.lexema = 'T'..num_temp
 			file = file..'T'..num_temp..' = '..t..';\n'
 		else
 			print('Erro!! Operandos de tipo inválido...')
@@ -137,6 +141,7 @@ function analisador_semantico (file, regra, producao)
 		end
 	elseif regra == 19 then
 		print('Copia todos os atributos de OPRD para LD')
+		--n_terminal[1] = oprd
 		nao_terminais.LD.token = n_terminal[1].token
 		nao_terminais.LD.lexema = n_terminal[1].lexema
 		nao_terminais.LD.tipo = n_terminal[1].tipo
@@ -146,9 +151,9 @@ function analisador_semantico (file, regra, producao)
 		local flag = false
 		for i = 1, #tabela_simbolos do
 			if tabela_simbolos[i].lexema == terminal[1].lexema then
-				nao_terminais.OPRD.token = terminal[1].token
-				nao_terminais.OPRD.lexema = terminal[1].lexema
-				nao_terminais.OPRD.tipo = terminal[1].tipo
+				nao_terminais.OPRD.token = tabela_simbolos[i].token
+				nao_terminais.OPRD.lexema = tabela_simbolos[i].lexema
+				nao_terminais.OPRD.tipo = tabela_simbolos[i].tipo
 				flag = false
 				break
 			else flag = true end
@@ -160,9 +165,10 @@ function analisador_semantico (file, regra, producao)
 		end
 	elseif regra == 21 then
 		print('Copia todos os atributos de num para OPRD')
-		nao_terminais.OPRD.token = terminal[1].token
-		nao_terminais.OPRD.lexema = terminal[1].lexema
-		nao_terminais.OPRD.tipo = terminal[1].tipo
+		oprd.lexema = terminal[1].lexema
+		oprd.tipo = terminal[1].tipo
+		oprd.token = terminal[1].token
+		nao_terminais.OPRD = oprd
 	elseif regra == 23 then
 		print('Imprime fecha chaves no arquivo')
 		file = file..'}\n'
@@ -172,10 +178,14 @@ function analisador_semantico (file, regra, producao)
 	elseif regra == 25 then
 		print('Verifica se os operandos são de tipos equivalentes')
 		print('Caso sejam, é gerado uma variável temporária como resultado da operação')
+		--n_terminal[1] = oprd
+
 		if n_terminal[1].tipo == 'int' or n_terminal[1].tipo == 'real' and
 			n_terminal[2].tipo == 'int' or n_terminal[2].tipo == 'real' then
+			local aux = n_terminal[2].lexema
 			num_temp = num_temp + 1
-			local t = n_terminal[2].lexema..' '..terminal[1].tipo..' '..n_terminal[1].lexema
+
+			local t = aux..' '..terminal[1].tipo..' '..n_terminal[1].lexema
 
 			nao_terminais.EXP_R.tipo = n_terminal[1].tipo
 			nao_terminais.EXP_R.lexema = 'T'..num_temp

@@ -160,7 +160,7 @@ function analisador_lexico (j)
 		elseif buffer.estado_anterior == 11 then
 			t.token = 'literal'
 			t.lexema = lexema
-			t.tipo = nil
+			t.tipo = 'literal'
 			t.is_terminal = true
 		elseif buffer.estado_anterior == 13 then
 			t.token = 'comentario'

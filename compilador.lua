@@ -18,6 +18,7 @@ is_end = false
 num_temp = 0
 tabela_simbolos = palavras_reservadas()
 nao_terminais = atributos_nterminais()
+oprd = {}
 
 function start_compilador()
 	local file
@@ -34,7 +35,7 @@ function start_compilador()
 		end
 		file = string.gsub(file, '@', '/*-----------------------------*/\n@')
 	end
-	file = string.gsub(file, '@', '\n')
+	file = string.gsub(file, '@', '')
 	--Finalizando o programa.c
 	file = file..'}\n'
 	--Cria de fato o arquivo.c
