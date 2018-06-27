@@ -81,11 +81,27 @@ function analisador_sintatico(content)
 				content = analisador_semantico(content, temp_estado, producao)
 
 				--Gerando a variável alfa com os atributos token, tipo e lexema
- 				local alfa = nao_terminais[nome_alfa]
+				local alfa
+				if temp_estado ~= 20 and temp_estado ~= 21 then
+ 					alfa = nao_terminais[nome_alfa]
 				--Corrigindo bug
-				if temp_estado == 21 then
-					alfa = nao_terminais['OPRD1']
+				else
+					if temp_estado == 20 then
+						if nao_terminais.OPRD.is_used and not nao_terminais.OPRD2.is_used then
+							alfa = nao_terminais.OPRD
+						elseif nao_terminais.OPRD2.is_used and nao_terminais.OPRD.is_used then
+							alfa = nao_terminais.OPRD2
+						end
+					end
+					if temp_estado == 21 then
+						if nao_terminais.OPRD1.is_used and not nao_terminais.OPRD3.is_used then
+							alfa = nao_terminais.OPRD1
+						elseif nao_terminais.OPRD3.is_used and nao_terminais.OPRD1.is_used then
+							alfa = nao_terminais.OPRD3
+						end
+					end
 				end
+
 				local nao_terminal
 				for k, v in pairs (tb_nao_terminais) do
 					if nome_alfa == v then

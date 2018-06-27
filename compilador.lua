@@ -18,7 +18,6 @@ is_end = false
 num_temp = 0
 tabela_simbolos = palavras_reservadas()
 nao_terminais = atributos_nterminais()
-oprd = {}
 
 function start_compilador()
 	local file

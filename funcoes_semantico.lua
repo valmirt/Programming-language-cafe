@@ -127,10 +127,14 @@ function analisador_semantico (file, regra, producao)
 			n_terminal[2].tipo == 'int' or n_terminal[2].tipo == 'real' then
 			num_temp = num_temp + 1
 			local t = n_terminal[2].lexema..' '..terminal[1].tipo..' '..n_terminal[1].lexema
-
 			nao_terminais.LD.tipo = n_terminal[1].tipo
 			nao_terminais.LD.lexema = 'T'..num_temp
 			file = file..'T'..num_temp..' = '..t..';\n'
+
+			nao_terminais.OPRD.is_used = false
+			nao_terminais.OPRD2.is_used = false
+			nao_terminais.OPRD1.is_used = false
+			nao_terminais.OPRD3.is_used = false
 		else
 			print('Erro!! Operandos de tipo inválido...')
 			erro = true
@@ -138,19 +142,31 @@ function analisador_semantico (file, regra, producao)
 		end
 	elseif regra == 19 then
 		print('Copia todos os atributos de OPRD para LD')
-		--n_terminal[1] = oprd
 		nao_terminais.LD.token = n_terminal[1].token
 		nao_terminais.LD.lexema = n_terminal[1].lexema
 		nao_terminais.LD.tipo = n_terminal[1].tipo
+
+		nao_terminais.OPRD.is_used = false
+		nao_terminais.OPRD2.is_used = false
+		nao_terminais.OPRD1.is_used = false
+		nao_terminais.OPRD3.is_used = false
 	elseif regra == 20 then
 		print('Verfica se o id está contido na tabela de simbolos')
 		print('caso esteja é passado seus atributos para OPRD')
 		local flag = false
 		for i = 1, #tabela_simbolos do
 			if tabela_simbolos[i].lexema == terminal[1].lexema then
-				nao_terminais.OPRD.token = tabela_simbolos[i].token
-				nao_terminais.OPRD.lexema = tabela_simbolos[i].lexema
-				nao_terminais.OPRD.tipo = tabela_simbolos[i].tipo
+				if not nao_terminais.OPRD.is_used then
+					nao_terminais.OPRD.lexema = terminal[1].lexema
+					nao_terminais.OPRD.tipo = terminal[1].tipo
+					nao_terminais.OPRD.token = terminal[1].token
+					nao_terminais.OPRD.is_used = true
+				else
+					nao_terminais.OPRD2.lexema = terminal[1].lexema
+					nao_terminais.OPRD2.tipo = terminal[1].tipo
+					nao_terminais.OPRD2.token = terminal[1].token
+					nao_terminais.OPRD2.is_used = true
+				end
 				flag = false
 				break
 			else flag = true end
@@ -162,9 +178,17 @@ function analisador_semantico (file, regra, producao)
 		end
 	elseif regra == 21 then
 		print('Copia todos os atributos de num para OPRD')
-		nao_terminais.OPRD1.lexema = terminal[1].lexema
-		nao_terminais.OPRD1.tipo = terminal[1].tipo
-		nao_terminais.OPRD1.token = terminal[1].token
+		if not nao_terminais.OPRD1.is_used then
+			nao_terminais.OPRD1.lexema = terminal[1].lexema
+			nao_terminais.OPRD1.tipo = terminal[1].tipo
+			nao_terminais.OPRD1.token = terminal[1].token
+			nao_terminais.OPRD1.is_used = true
+		else
+			nao_terminais.OPRD3.lexema = terminal[1].lexema
+			nao_terminais.OPRD3.tipo = terminal[1].tipo
+			nao_terminais.OPRD3.token = terminal[1].token
+			nao_terminais.OPRD3.is_used = true
+		end
 	elseif regra == 23 then
 		print('Imprime fecha chaves no arquivo')
 		file = file..'}\n'
@@ -182,6 +206,11 @@ function analisador_semantico (file, regra, producao)
 			nao_terminais.EXP_R.tipo = n_terminal[1].tipo
 			nao_terminais.EXP_R.lexema = 'T'..num_temp
 			file = file..'T'..num_temp..' = '..t..';\n'
+
+			nao_terminais.OPRD.is_used = false
+			nao_terminais.OPRD2.is_used = false
+			nao_terminais.OPRD1.is_used = false
+			nao_terminais.OPRD3.is_used = false
 		else
 			print('Erro!! Operandos de tipo inválido...')
 			erro = true
@@ -351,12 +380,28 @@ function atributos_nterminais()
 			['lexema'] = nil,
 			['tipo'] = nil,
 			['is_terminal'] = false,
+			['is_used'] = false,
+		},
+		['OPRD2'] = {
+			['token'] = nil,
+			['lexema'] = nil,
+			['tipo'] = nil,
+			['is_terminal'] = false,
+			['is_used'] = false,
 		},
 		['OPRD1'] = {
 			['token'] = nil,
 			['lexema'] = nil,
 			['tipo'] = nil,
 			['is_terminal'] = false,
+			['is_used'] = false,
+		},
+		['OPRD3'] = {
+			['token'] = nil,
+			['lexema'] = nil,
+			['tipo'] = nil,
+			['is_terminal'] = false,
+			['is_used'] = false,
 		},
 		['COND'] = {
 			['token'] = nil,
