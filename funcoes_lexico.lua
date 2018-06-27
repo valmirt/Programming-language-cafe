@@ -1,21 +1,21 @@
 --[[Valmir Torres de Jesus Junior
 	Compiladores 24-06-2018
-		
+
 	Compilador feito em lua que dado um arquivo em Mgol é convertido
 	para linguagem C.
-	
+
 	-Funções necessárias e o analisador léxico-
 ]]
 
 function analisador_lexico (j)
 	local i = j
 	local lexema = ''
-	
+
 	--Recupera a matriz que representa os estados de transição do DFA
 	local dfa = dfa_regular()
 	--Variável que compara se é o fim do arquivo
 	local fim_arquivo = compara_final()
-	
+
 	--Buffer usado para caminhar no dfa
 	local buffer = {
 		['estado_anterior'] = nil,
@@ -27,8 +27,9 @@ function analisador_lexico (j)
 		['token'] = nil,
 		['lexema'] = nil,
 		['tipo'] = nil,
+		['is_terminal'] = true,
 	}
-	
+
 	--Repete até voltar pro estado inicial ou estado de rejeição
 	repeat
 		--Transfere os dados do arquivo para memoria principal
@@ -50,10 +51,10 @@ function analisador_lexico (j)
 		end
 		--Salva o estado anterior
 		buffer.estado_anterior = buffer.estado_atual
-		
+
 		--Pega sempre o ultimo caractere do arquivo
 		buffer.entrada = string.sub(arquivo, -1)
-		
+
 		--Caractere +
 		if string.byte(buffer.entrada) == 43 then
 			buffer.estado_atual = dfa[buffer.estado_atual][1]
@@ -67,7 +68,7 @@ function analisador_lexico (j)
 		elseif string.byte(buffer.entrada) == 47 then
 			buffer.estado_atual = dfa[buffer.estado_atual][4]
 		--Caractere num
-		elseif string.byte(buffer.entrada) >= 48 and 
+		elseif string.byte(buffer.entrada) >= 48 and
 				string.byte(buffer.entrada) <= 57 then
 			buffer.estado_atual = dfa[buffer.estado_atual][5]
 		--Caractere .
@@ -114,7 +115,7 @@ function analisador_lexico (j)
 		elseif string.byte(buffer.entrada) == 59 then
 			buffer.estado_atual = dfa[buffer.estado_atual][19]
 		--Espaço/Tab/Quebra de Linha
-		elseif string.byte(buffer.entrada) == 32 or string.byte(buffer.entrada) == 9 or 
+		elseif string.byte(buffer.entrada) == 32 or string.byte(buffer.entrada) == 9 or
 				string.byte(buffer.entrada) == 10 then
 			buffer.estado_atual = dfa[buffer.estado_atual][20]
 		--Caracteres : e \ que vão no comentario ou literal
@@ -125,16 +126,16 @@ function analisador_lexico (j)
 			erro = true
 			return nil
 		end
-		
+
 		if buffer.estado_atual ~= 1 and buffer.estado_atual ~= 22 then
 			--Armazena o lexema por caractere
 			lexema = lexema..buffer.entrada
-			--Incrementa i para ler o próximo caractere	
+			--Incrementa i para ler o próximo caractere
 			i = i + 1
 		end
-	--Condição de parada do repeat-until		
+	--Condição de parada do repeat-until
 	until buffer.estado_atual == 1 or buffer.estado_atual == 22
-	
+
 	--Verifica se é estado final
 	if buffer.estado_atual == 1 then
 		if buffer.estado_anterior == 1 then
@@ -143,64 +144,74 @@ function analisador_lexico (j)
 		elseif buffer.estado_anterior == 2 then
 			t.token = 'opm'
 			t.lexema = lexema
-			t.tipo = nil
-		elseif buffer.estado_anterior == 3 or buffer.estado_anterior == 5 or 
+			t.tipo = lexema
+			t.is_terminal = true
+		elseif buffer.estado_anterior == 3 or buffer.estado_anterior == 5 or
 				buffer.estado_anterior == 8 then
 			t.token = 'num'
 			t.lexema = lexema
-			t.tipo = nil
+			t.tipo = 'real'
+			t.is_terminal = true
 		elseif buffer.estado_anterior == 9 then
 			t.token = 'id'
 			t.lexema = lexema
 			t.tipo = nil
+			t.is_terminal = true
 		elseif buffer.estado_anterior == 11 then
 			t.token = 'literal'
 			t.lexema = lexema
 			t.tipo = nil
+			t.is_terminal = true
 		elseif buffer.estado_anterior == 13 then
 			t.token = 'comentario'
 			t.lexema = lexema
 			t.tipo = nil
+			t.is_terminal = true
 		elseif buffer.estado_anterior == 14 or buffer.estado_anterior == 15 or
 				buffer.estado_anterior == 16 or buffer.estado_anterior == 21 then
 			t.token = 'opr'
 			t.lexema = lexema
-			t.tipo = nil
+			t.tipo = lexema
+			t.is_terminal = true
 		elseif buffer.estado_anterior == 17 then
 			t.token = 'rcb'
 			t.lexema = lexema
-			t.tipo = nil
+			t.tipo = '='
+			t.is_terminal = true
 		elseif buffer.estado_anterior == 18 then
 			t.token = 'ab_p'
 			t.lexema = lexema
-			t.tipo = nil
+			t.tipo = lexema
+			t.is_terminal = true
 		elseif buffer.estado_anterior == 19 then
 			t.token = 'fc_p'
 			t.lexema = lexema
-			t.tipo = nil
+			t.tipo = lexema
+			t.is_terminal = true
 		elseif buffer.estado_anterior == 20 then
 			t.token = 'pt_v'
 			t.lexema = lexema
-			t.tipo = nil
+			t.tipo = lexema
+			t.is_terminal = true
 		end
 	else
 		print ('Erro! caractere inválido na posição '.. i..' do arquivo')
 		erro = true
 		return nil
 	end
-		
+
 	local aux = compara_token(t)
 	t = aux
-	
+
 	return t, i
 end
 
 function dfa_regular ()
 	local dfa = {}
-	for i = 1, 22 do 
+	for i = 1, 22 do
 		dfa[i] = {}
 	end
-	
+
 	--Estado s1
 	dfa[1][1] = 2 -- +
 	dfa[1][2] = 2 -- -
@@ -223,12 +234,12 @@ function dfa_regular ()
 	dfa[1][19] = 20 -- ;
 	dfa[1][20] = 1 -- space
 	dfa[1][21] = 22 -- \ e :
-	
+
 	--Estado s2
 	for i = 1, 20 do
 		dfa[2][i] = 1
 	end
-	
+
 	--Estado s3
 	dfa[3][1] = 1
 	dfa[3][2] = 1
@@ -241,7 +252,7 @@ function dfa_regular ()
 	for i = 9, 21 do
 		dfa[3][i] = 1
 	end
-	
+
 	--Estado s4
 	dfa[4][1] = 22
 	dfa[4][2] = 22
@@ -251,7 +262,7 @@ function dfa_regular ()
 	for i = 6, 21 do
 		dfa[4][i] = 22
 	end
-	
+
 	--Estado s5
 	dfa[5][1] = 1
 	dfa[5][2] = 1
@@ -264,7 +275,7 @@ function dfa_regular ()
 	for i = 9, 21 do
 		dfa[5][i] = 1
 	end
-	
+
 	--Estado s6
 	dfa[6][1] = 7
 	dfa[6][2] = 7
@@ -274,7 +285,7 @@ function dfa_regular ()
 	for i = 6, 21 do
 		dfa[6][i] = 22
 	end
-	
+
 	--Estado s7
 	dfa[7][1] = 22
 	dfa[7][2] = 22
@@ -284,7 +295,7 @@ function dfa_regular ()
 	for i = 6, 21 do
 		dfa[7][i] = 22
 	end
-		
+
 	--Estado s8
 	dfa[8][1] = 1
 	dfa[8][2] = 1
@@ -294,7 +305,7 @@ function dfa_regular ()
 	for i = 6, 21 do
 		dfa[8][i] = 1
 	end
-	
+
 	--Estado s9
 	dfa[9][1] = 1
 	dfa[9][2] = 1
@@ -309,7 +320,7 @@ function dfa_regular ()
 	for i = 11, 21 do
 		dfa[9][i] = 1
 	end
-	
+
 	--Estado s10
 	for i = 1, 12 do
 		dfa[10][i] = 10
@@ -318,12 +329,12 @@ function dfa_regular ()
 	for i = 14, 21 do
 		dfa[10][i] = 10
 	end
-	
+
 	--Estado s11
 	for i = 1, 21 do
 		dfa[11][i] = 1
 	end
-	
+
 	--Estado s12
 	for i = 1, 11 do
 		dfa[12][i] = 12
@@ -332,12 +343,12 @@ function dfa_regular ()
 	for i = 13, 21 do
 		dfa[12][i] = 12
 	end
-	
+
 	--Estado s13
 	for i = 1, 20 do
 		dfa[13][i] = 1
 	end
-	
+
 	--Estado s14
 	for i = 1, 14 do
 		dfa[14][i] = 1
@@ -346,7 +357,7 @@ function dfa_regular ()
 	for i = 16, 21 do
 		dfa[14][i] = 1
 	end
-	
+
 	--Estado s15
 	dfa[15][1] = 1
 	dfa[15][2] = 17
@@ -358,41 +369,41 @@ function dfa_regular ()
 	for i = 16, 21 do
 		dfa[15][i] = 1
 	end
-	
+
 	--Estado s16
 	for i = 1, 21 do
 		dfa[16][i] = 1
 	end
-	
+
 	--Estado s17
 	for i = 1, 21 do
 		dfa[17][i] = 1
 	end
-	
+
 	--Estado s18
 	for i = 1, 21 do
 		dfa[18][i] = 1
 	end
-		
+
 	--Estado s19
 	for i = 1, 21 do
 		dfa[19][i] = 1
 	end
-	
+
 	--Estado s20
 	for i = 1, 21 do
 		dfa[20][i] = 1
 	end
-	
+
 	--Estado s21
 	for i = 1, 21 do
 		dfa[21][i] = 1
 	end
-	
+
 	--Estado s22
 	for i = 1, 21 do
 		dfa[22][i] = 22
 	end
-	
+
 	return dfa
 end

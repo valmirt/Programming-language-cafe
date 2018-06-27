@@ -1,6 +1,6 @@
 --[[Valmir Torres de Jesus Junior
 	Compiladores 24-06-2018
-		
+
 	Compilador feito em lua que dado um arquivo em Mgol é convertido
 	para linguagem C.
 ]]
@@ -11,22 +11,33 @@ dofile('funcoes_sintatico.lua')
 dofile('funcoes_semantico.lua')
 dofile('stack.lua')
 
+--Variáveis globais
 erro = false
 erro_semantico = false
 is_end = false
---Popula a tabela de simbolos com as palavras reservadas
+num_temp = 0
 tabela_simbolos = palavras_reservadas()
---Define os atributos dos não-terminais
 nao_terminais = atributos_nterminais()
 
 function start_compilador()
-	local file 
-	--Definindo o cabeçalho do programa .c
-	file = '#include <stdio.h>\ntypedef char literal[256];\nvoid main (void) {\n'
-	
+	local file
+	--Definindo o cabeçalho do programa.c
+	file = '#include <stdio.h>\ntypedef char lit[256];\n\nvoid main (void) {\n@'
+
 	file = analisador_sintatico(file)
-	
-	--Cria de fato o arquivo .c
+
+	--Cria as variáveis temporarias
+	if num_temp > 0 then
+		file = string.gsub(file, '@', '/*----Variaveis temporarias----*/\n@')
+		for i = 1, num_temp do
+			file = string.gsub(file, '@', 'int T'..i..';\n@')
+		end
+		file = string.gsub(file, '@', '/*-----------------------------*/\n@')
+	end
+	file = string.gsub(file, '@', '\n')
+	--Finalizando o programa.c
+	file = file..'}\n'
+	--Cria de fato o arquivo.c
 	create_file(file)
 end
 

@@ -49,7 +49,7 @@ function analisador_sintatico(content)
 			if tabela_sr[topo][terminal].operacao == 'Shift' then
 				controle_reduce = false
 				--Empilha o terminal e o estado
-				pilha:push (aux.token, tabela_sr[topo][terminal].estado)
+				pilha:push (aux, tabela_sr[topo][terminal].estado)
 			elseif tabela_sr[topo][terminal].operacao == 'Reduce' then
 				controle_reduce = true
 				local temp_estado = tabela_sr[topo][terminal].estado
@@ -61,15 +61,30 @@ function analisador_sintatico(content)
 				print(regra)
 				--Regra GLC: alfa -> beta
 				--Elimina os 2*|beta| elementos da pilha
-				local alfa = glc[tabela_sr[topo][terminal].estado].regra
+				local nome_alfa = glc[tabela_sr[topo][terminal].estado].regra
 				local beta = #glc[tabela_sr[topo][terminal].estado].producao
-				pilha:pop(2*beta)
+				--Recuperando informações que serão uteis para a parte semântica
+				local producao = {}
+				local temp = false
+				for i = 1, (2*beta) do
+					if not temp then
+						pilha:pop()
+						temp = true
+					else
+						table.insert(producao, pilha:pop())
+						temp = false
+					end
+				end
 				--Atualiza o topo
 				topo = pilha:topo()
+				--Chama o analisador semantico que atribui a regra semantica dirida pela sintaxe
+				content = analisador_semantico(content, temp_estado, producao)
 
+				--Gerando a variável alfa com os atributos token, tipo e lexema
+ 				local alfa = nao_terminais[nome_alfa]
 				local nao_terminal
 				for k, v in pairs (tb_nao_terminais) do
-					if alfa == v then
+					if nome_alfa == v then
 						nao_terminal = k + 22
 						break
 					end
@@ -77,17 +92,14 @@ function analisador_sintatico(content)
 				--Insere o alfa e o estado da tabela shift/reduce
 				local estado = tabela_sr[topo][nao_terminal].estado
 				pilha:push(alfa, estado)
-				--Chama o analisador semantico que atribui a regra semantica dirida pela sintaxe
-				 content = analisador_semantico(content, temp_estado, aux)
-				 if erro_semantico then break end --Sai direto no erro vindo pelo analisador_semantico
+				if erro_semantico then break end --Sai direto no erro vindo pelo analisador_semantico
 			elseif tabela_sr[topo][terminal].operacao == 'Aceita!' then
 				controle_acc = true
 				--Aceitou toda sintaxe do código
 				--Esse print é só pra completar os prints das regras
 				print('S -> P')
 				print(tabela_sr[topo][terminal].operacao)
-			else print(tabela_sr[topo	][terminal].operacao) break --Algum erro de sintaxe
-			end
+			else print(tabela_sr[topo][terminal].operacao) break end --Algum erro de sintaxe
 
 			if controle_acc then
 				if is_end then break end --depois de fazer a ultima execucao sai do while
@@ -96,11 +108,11 @@ function analisador_sintatico(content)
 	end
 	--[[if erro == false then
 		--Imprime os tokens encontrados no arquivo Mgol.txt
-		print_tabela_tokens (tabela_tokens)
+		print_tabela (tabela_tokens)
 	end]]
 
 	--[[--Imprime os tokens da tabela de simbolos
-	print_tabela_simbolos (tabela_simbolos)]]
+	print_tabela (tabela_simbolos)]]
 
 	--Retorna o arquivo que contem o codigo .c
 	return content
