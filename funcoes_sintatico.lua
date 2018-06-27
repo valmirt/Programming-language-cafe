@@ -82,6 +82,10 @@ function analisador_sintatico(content)
 
 				--Gerando a variável alfa com os atributos token, tipo e lexema
  				local alfa = nao_terminais[nome_alfa]
+				--Corrigindo bug
+				if temp_estado == 21 then
+					alfa = nao_terminais['OPRD1']
+				end
 				local nao_terminal
 				for k, v in pairs (tb_nao_terminais) do
 					if nome_alfa == v then

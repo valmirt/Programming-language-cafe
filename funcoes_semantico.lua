@@ -18,8 +18,6 @@ function analisador_semantico (file, regra, producao)
 		end
 	end
 
-	print(regra)
-
 	--Para cada regra da gramática temos um bloco de regras semânticas a ser executada
 	if regra == 5 then
 		print('Imprime tres linhas em branco no arquivo')
@@ -125,7 +123,6 @@ function analisador_semantico (file, regra, producao)
 	elseif regra == 18 then
 		print('Verifica se algum dos operandos é do tipo literal')
 		print('Caso nao seja, é gerado uma variável temporária como resultado da operação')
-		--n_terminal[1] = oprd
 		if n_terminal[1].tipo == 'int' or n_terminal[1].tipo == 'real' and
 			n_terminal[2].tipo == 'int' or n_terminal[2].tipo == 'real' then
 			num_temp = num_temp + 1
@@ -165,10 +162,9 @@ function analisador_semantico (file, regra, producao)
 		end
 	elseif regra == 21 then
 		print('Copia todos os atributos de num para OPRD')
-		oprd.lexema = terminal[1].lexema
-		oprd.tipo = terminal[1].tipo
-		oprd.token = terminal[1].token
-		nao_terminais.OPRD = oprd
+		nao_terminais.OPRD1.lexema = terminal[1].lexema
+		nao_terminais.OPRD1.tipo = terminal[1].tipo
+		nao_terminais.OPRD1.token = terminal[1].token
 	elseif regra == 23 then
 		print('Imprime fecha chaves no arquivo')
 		file = file..'}\n'
@@ -178,14 +174,10 @@ function analisador_semantico (file, regra, producao)
 	elseif regra == 25 then
 		print('Verifica se os operandos são de tipos equivalentes')
 		print('Caso sejam, é gerado uma variável temporária como resultado da operação')
-		--n_terminal[1] = oprd
-
 		if n_terminal[1].tipo == 'int' or n_terminal[1].tipo == 'real' and
 			n_terminal[2].tipo == 'int' or n_terminal[2].tipo == 'real' then
-			local aux = n_terminal[2].lexema
 			num_temp = num_temp + 1
-
-			local t = aux..' '..terminal[1].tipo..' '..n_terminal[1].lexema
+			local t = n_terminal[2].lexema..' '..terminal[1].tipo..' '..n_terminal[1].lexema
 
 			nao_terminais.EXP_R.tipo = n_terminal[1].tipo
 			nao_terminais.EXP_R.lexema = 'T'..num_temp
@@ -355,6 +347,12 @@ function atributos_nterminais()
 			['is_terminal'] = false,
 		},
 		['OPRD'] = {
+			['token'] = nil,
+			['lexema'] = nil,
+			['tipo'] = nil,
+			['is_terminal'] = false,
+		},
+		['OPRD1'] = {
 			['token'] = nil,
 			['lexema'] = nil,
 			['tipo'] = nil,
