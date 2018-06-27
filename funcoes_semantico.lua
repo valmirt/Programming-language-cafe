@@ -87,11 +87,11 @@ function analisador_semantico (file, regra, producao)
 				nao_terminais.ARG.token = terminal[1].token
 				nao_terminais.ARG.lexema = terminal[1].lexema
 				nao_terminais.ARG.tipo = terminal[1].tipo
-				flag = false
+				flag = true
 				break
-			else flag = true end
+			end
 		end
-		if flag then
+		if not flag then
 			print('Erro!! Variável '..terminal[1].lexema..' não declarada...')
 			erro = true
 			erro_semantico = true
@@ -100,22 +100,29 @@ function analisador_semantico (file, regra, producao)
 		print('Verifica se o id já foi declarado')
 		print('Caso seja seu tipo é comparado com LD')
 		local flag = false
+		
 		for i = 1, #tabela_simbolos do
 			if tabela_simbolos[i].lexema == terminal[3].lexema then
-				if tabela_simbolos[i].tipo == n_terminal[1].tipo or
-					tabela_simbolos[i].tipo == 'int' or tabela_simbolos[i].tipo == 'real' and
-					n_terminal[1].tipo == 'int' or n_terminal[1].tipo == 'real' then
-					file = file..tabela_simbolos[i].lexema..' '..terminal[2].tipo..' '..n_terminal[1].lexema..';\n'
-				else
-					print('Erro!! Tipos diferentes para atribuição...')
+				if tabela_simbolos[i].tipo == nil then
+					print('Erro!! Variável '..terminal[3].lexema..' não declarada...')
 					erro = true
 					erro_semantico = true
+				else
+					if tabela_simbolos[i].tipo == n_terminal[1].tipo or
+						tabela_simbolos[i].tipo == 'int' or tabela_simbolos[i].tipo == 'real' and
+						n_terminal[1].tipo == 'int' or n_terminal[1].tipo == 'real' then
+						file = file..tabela_simbolos[i].lexema..' '..terminal[2].tipo..' '..n_terminal[1].lexema..';\n'
+					else
+						print('Erro!! Tipos diferentes para atribuição ou Variável...')
+						erro = true
+						erro_semantico = true
+					end
 				end
-				flag = false
+				flag = true
 				break
-			else flag = true end
+			end
 		end
-		if flag then
+		if not flag then
 			print('Erro!! Variável '..terminal[3].lexema..' não declarada...')
 			erro = true
 			erro_semantico = true
@@ -154,24 +161,31 @@ function analisador_semantico (file, regra, producao)
 		print('Verfica se o id está contido na tabela de simbolos')
 		print('caso esteja é passado seus atributos para OPRD')
 		local flag = false
+
 		for i = 1, #tabela_simbolos do
 			if tabela_simbolos[i].lexema == terminal[1].lexema then
-				if not nao_terminais.OPRD.is_used then
-					nao_terminais.OPRD.lexema = terminal[1].lexema
-					nao_terminais.OPRD.tipo = terminal[1].tipo
-					nao_terminais.OPRD.token = terminal[1].token
-					nao_terminais.OPRD.is_used = true
+				if tabela_simbolos[i].tipo == nil then
+					print('Erro!! Variável '..terminal[1].lexema..' não declarada...')
+					erro = true
+					erro_semantico = true
 				else
-					nao_terminais.OPRD2.lexema = terminal[1].lexema
-					nao_terminais.OPRD2.tipo = terminal[1].tipo
-					nao_terminais.OPRD2.token = terminal[1].token
-					nao_terminais.OPRD2.is_used = true
+					if not nao_terminais.OPRD.is_used then
+						nao_terminais.OPRD.lexema = terminal[1].lexema
+						nao_terminais.OPRD.tipo = terminal[1].tipo
+						nao_terminais.OPRD.token = terminal[1].token
+						nao_terminais.OPRD.is_used = true
+					else
+						nao_terminais.OPRD2.lexema = terminal[1].lexema
+						nao_terminais.OPRD2.tipo = terminal[1].tipo
+						nao_terminais.OPRD2.token = terminal[1].token
+						nao_terminais.OPRD2.is_used = true
+					end
 				end
-				flag = false
+				flag = true
 				break
-			else flag = true end
+			end
 		end
-		if flag then
+		if not flag then
 			print('Erro!! Variável '..terminal[1].lexema..' não declarada...')
 			erro = true
 			erro_semantico = true
@@ -203,7 +217,6 @@ function analisador_semantico (file, regra, producao)
 			num_temp = num_temp + 1
 			local t = n_terminal[2].lexema..' '..terminal[1].tipo..' '..n_terminal[1].lexema
 
-			nao_terminais.EXP_R.tipo = n_terminal[1].tipo
 			nao_terminais.EXP_R.lexema = 'T'..num_temp
 			file = file..'T'..num_temp..' = '..t..';\n'
 
