@@ -5,11 +5,11 @@
 	para linguagem C.
 ]]
 
-dofile('funcoes_auxiliares.lua')
-dofile('funcoes_lexico.lua')
-dofile('funcoes_sintatico.lua')
-dofile('funcoes_semantico.lua')
-dofile('stack.lua')
+dofile('compiler/funcoes_auxiliares.lua')
+dofile('compiler/funcoes_lexico.lua')
+dofile('compiler/funcoes_sintatico.lua')
+dofile('compiler/funcoes_semantico.lua')
+dofile('compiler/stack.lua')
 
 --Variáveis globais
 erro = false
