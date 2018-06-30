@@ -34,7 +34,6 @@ function analisador_lexico (j)
 	repeat
 		--Transfere os dados do arquivo para memoria principal
 		local arquivo = le_arquivo(i)
-		local teste = string.sub(arquivo, -1)
 
 		--Fim do arquivo
 		if fim_arquivo == arquivo then
