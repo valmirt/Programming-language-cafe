@@ -1,11 +1,36 @@
---[[Valmir Torres de Jesus Junior		128745
-	Compiladores 30-05-2018
-		
+--[[Valmir Torres de Jesus Junior
+	Compiladores 24-06-2018
+
 	Compilador feito em lua que dado um arquivo em Mgol é convertido
 	para linguagem C.
-	
+
 	-Funções auxiliares-
 ]]
+
+--Função que verifica se o token é uma palavra reservada
+function compara_token (t)
+	local aux = t
+	local flag = false
+
+	if aux ~= false then
+		if aux.token == 'id' then
+			--Verifica se já existe na tabela de simbolos
+			for i = 1, #tabela_simbolos do
+				if tabela_simbolos[i].lexema == aux.lexema then
+					aux = tabela_simbolos[i]
+					flag = true
+					break
+				end
+			end
+			--Insere o id antes nao encontrado na tabela de simbolos
+			if flag == false then
+				table.insert(tabela_simbolos, aux)
+			end
+		end
+	end
+
+	return aux
+end
 
 function gramatica_glc ()
 	--Gramatica livre de contexto da linguagem Mgol
@@ -129,7 +154,7 @@ function gramatica_glc ()
 		[30] = {
 			['regra'] = 'A',
 			['producao'] = {'fim',},
-		}, 
+		},
 	}
 	return glc
 end
@@ -185,53 +210,51 @@ function lista_de_nao_terminais ()
 	return glc
 end
 
+function create_file (content)
+	--cria o arquivo final .c
+	local file = io.open('programa.c', 'w')
+	--seta o arquivo como saida padrão
+	io.output(file)
+	--escreve no arquivo
+	io.write(content)
+	--fecha o arquivo
+	io.close(file)
+end
+
 function le_arquivo (i)
-	--abre o arquivo mgol.txt 
-	local file = io.open('Mgol.txt', 'r')
-	--seta o arquivo como entrada padrão 
+	--abre o arquivo fonte.mgl
+	local file = io.open('fonte.mgl', 'r')
+	--seta o arquivo como entrada padrão
 	io.input(file)
 	--salva arquivo em uma variável
 	local string = io.read(i)
 	--fecha o arquivo
 	io.close(file)
-	
+
 	return string
 end
 
 function compara_final ()
-	--abre o arquivo mgol.txt 
-	local file = io.open('Mgol.txt', 'r')
-	--seta o arquivo como entrada padrão 
+	--abre o arquivo fonte.mgl
+	local file = io.open('fonte.mgl', 'r')
+	--seta o arquivo como entrada padrão
 	io.input(file)
 	--salva arquivo em uma variável
 	local string = io.read('*a')
 	--fecha o arquivo
 	io.close(file)
-	
+
 	return string
 end
 
-function print_tabela_tokens (tabela_tokens)
-	--Imprime os tokens encontrados no arquivo Mgol.txt 
+function print_tabela (tabela_tokens)
+	--Imprime os tokens encontrados no arquivo Mgol.txt
 	for i = 1, #tabela_tokens do
 		print ('------------------------------------')
 		print (i)
-		print ('Token = '..tabela_tokens[i].token) 
-		print ('Lexema = '..tabela_tokens[i].lexema) 
+		print ('Token = '..tabela_tokens[i].token)
+		print ('Lexema = '..tabela_tokens[i].lexema)
 		print ('Tipo =', tabela_tokens[i].tipo)
-		print ()
-	end
-end
-
-function print_tabela_simbolos (tabela_simbolos)
-	--Imprime os tokens da tabela de simbolos 
-	print ('\n\n------------TABELA DE SIMBOLOS-----------------')
-	for i = 1, #tabela_simbolos do
-		print ('------------------------------------')
-		print (i)
-		print ('Token = '..tabela_simbolos[i].token) 
-		print ('Lexema = '..tabela_simbolos[i].lexema) 
-		print ('Tipo =', tabela_simbolos[i].tipo)
 		print ()
 	end
 end

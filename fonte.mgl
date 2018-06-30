@@ -1,34 +1,45 @@
+{
+	Valmir Torres de Jesus Junior
+	Compiladores 24-06-2018
+
+	Compilador feito em lua que dado um arquivo em Mgol e convertido
+	para linguagem C.
+
+	-Arquivo de texto que sera traduzido-
+}
+
 inicio
 	varinicio
 		A lit;
 		B int;
 		D int;
 		C real;
+		E int;
 	varfim;
-	
-	{Comentario teste}
-	
+
 	escreva "Digite B: ";
 	leia B;
 	escreva "Digite A: ";
 	leia A;
-	
+
 	se (B>2) entao
 		se (B<=4) entao
 			escreva "B esta entre 2 e 4";
 		fimse
 	fimse
-	
+
 	B <- B + 1;
 	B <- B + 2;
 	B <- B + 3;
 	D <- B;
 	C <- 5.0;
-	
-	escreva "\n B = \n";
+	E <- C + B;
+
+	escreva "\nB = ";
 	escreva D;
 	escreva "\n";
 	escreva C;
 	escreva "\n";
 	escreva A;
+	escreva "\n";
 fim
