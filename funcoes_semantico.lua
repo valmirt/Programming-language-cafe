@@ -69,9 +69,14 @@ function analisador_semantico (file, regra, producao)
 		elseif n_terminal[1].tipo == 'int' then
 			file = file..'printf("%d", '..n_terminal[1].lexema..');\n'
 		elseif n_terminal[1].tipo == 'real' then
-			file = file..'printf("%1.f", '..n_terminal[1].lexema..');\n'
+			file = file..'printf("%.1f", '..n_terminal[1].lexema..');\n'
 		elseif n_terminal[1].tipo == 'literal' then
 			file = file..'printf('..n_terminal[1].lexema..');\n'
+		else
+			--Se não tem tipo é pq é uma varável e não foi declarada
+			print('Erro!! Variável '..terminal[2].lexema..' não declarada...')
+			erro = true
+			erro_semantico = true
 		end
 	elseif regra == 13 or regra == 14 then
 		print('Atribui os atributos do terminal a ARG')
@@ -100,7 +105,7 @@ function analisador_semantico (file, regra, producao)
 		print('Verifica se o id já foi declarado')
 		print('Caso seja seu tipo é comparado com LD')
 		local flag = false
-		
+
 		for i = 1, #tabela_simbolos do
 			if tabela_simbolos[i].lexema == terminal[3].lexema then
 				if tabela_simbolos[i].tipo == nil then
