@@ -16,8 +16,14 @@ erro = false
 erro_semantico = false
 is_end = false
 num_temp = 0
+num_char = 1
+num_row = 1
+read_new_line = true
 tabela_simbolos = palavras_reservadas()
 nao_terminais = atributos_nterminais()
+code = le_arquivo()
+array_chars = {}
+temp = ''
 
 function start_compilador()
 	local file

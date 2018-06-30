@@ -13,20 +13,18 @@ function analisador_sintatico(content)
 	local tb_nao_terminais = lista_de_nao_terminais()
 	local tabela_sr = tabela_sintatica_sr()
 	local tabela_tokens = {}
-	local j = 1
-	local aux, i
+	local aux
 	local controle_reduce = false
 	local controle_acc = false
 	local pilha = Stack:Create()
 	pilha:push(1)
 
-	while true do
+	while not is_end do
 		if not controle_reduce then
 			--Recebe tabela com token, lexema e tipo definidos
 			--Recebe também o ponteiro que percorre o arquivo
 			if not is_end and not erro then
-				aux, i = analisador_lexico (j)
-				j = i
+				aux = analisador_lexico()
 				if aux ~= false then table.insert(tabela_tokens, aux) end
 				if erro then break end --Se deu erro sai direto
 			elseif is_end then aux = {['token'] = '$'} end--Indicando o fim do arquivo
@@ -35,7 +33,7 @@ function analisador_sintatico(content)
 		local topo = pilha:topo()
 
 		--Ignora tab, espaco, \n e comentario
-		if aux ~= false and aux.token ~= 'comentario' then
+		--[[if aux ~= false and aux.token ~= 'comentario' then
 			--Definindo o numero q representa o terminal de acordo
 			--com a construção da tabela shift/reduce
 			local terminal
@@ -124,15 +122,15 @@ function analisador_sintatico(content)
 			if controle_acc then
 				if is_end then break end --depois de fazer a ultima execucao sai do while
 			end
-		end
+		end]]
 	end
-	--[[if erro == false then
+	--if erro == false then
 		--Imprime os tokens encontrados no arquivo Mgol.txt
 		print_tabela (tabela_tokens)
-	end]]
+	--end
 
-	--[[--Imprime os tokens da tabela de simbolos
-	print_tabela (tabela_simbolos)]]
+	--Imprime os tokens da tabela de simbolos
+	--print_tabela (tabela_simbolos)
 
 	--Retorna o arquivo que contem o codigo .c
 	return content
