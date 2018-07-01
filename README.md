@@ -9,7 +9,7 @@ Trabalho acadêmico feito durante a matéria de Compiladores do curso de Ciênci
 4. Salve este arquivo criado dentro da pasta do projeto.
 5. Abra o terminal na pasta onde se encontra o projeto.
 6. Execute: `lua compilador.lua`
-7. Pronto, um arquivo .c com mesmo nome é criado e poderá perfeitamente ser executado no compilador de linguagem c.
+7. Pronto, um arquivo chamado programa.c é criado e poderá ser executado no compilador de linguagem c.
 
 
 ## Informações do projeto:
