@@ -250,7 +250,7 @@ function return_char()
 			read_new_line = true
 			return '\n'
 		elseif num_row == #code then
-			return ' ', true
+			return '\n', true
 		end
 	else
 		read_new_line = false

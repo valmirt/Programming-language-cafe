@@ -14,7 +14,7 @@ dofile('compiler/stack.lua')
 --Variáveis globais
 erro = false
 erro_semantico = false
-is_end = false
+enf_file = false
 num_temp = 0
 num_char = 1
 num_row = 1

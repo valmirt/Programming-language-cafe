@@ -30,11 +30,11 @@ function analisador_lexico ()
 	--Repete até voltar pro estado inicial ou estado de rejeição
 	repeat
 		--Transfere os dados do arquivo para memoria principal
-		local char, end_file = return_char()
+		local char, end_f = return_char()
 
 		--Fim do arquivo
-		if end_file then
-			is_end = true
+		if end_f then
+			end_file = true
 			if buffer.estado_atual == 10 then
 				print('Erro! Aspas não foram fechadas.')
 				erro = true
@@ -115,7 +115,7 @@ function analisador_lexico ()
 		elseif string.byte(buffer.entrada) == 58 or string.byte(buffer.entrada) == 92 then
 			buffer.estado_atual = dfa[buffer.estado_atual][21]
 		else
-			print ('Erro! caractere inválido')
+			print ('Erro linha '..num_row..': caractere "'..buffer.entrada..'" inválido')
 			erro = true
 			return nil
 		end
@@ -191,7 +191,7 @@ function analisador_lexico ()
 			t.is_terminal = true
 		end
 	else
-		print ('Erro! caractere inválido na posição do arquivo')
+		print ('Erro linha '..num_row..': caractere "'..buffer.entrada..'" inválido')
 		erro = true
 		return nil
 	end
