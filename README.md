@@ -1,7 +1,7 @@
 # Compilador em Lua
 Trabalho acadêmico feito durante a matéria de Compiladores do curso de Ciência da Computação pela Universidade Federal de Goiás.
 
-## Executando o projeto:
+## Executando o projeto (Somente linux):
 
 1. Faça o download do compilador Lua [AQUI](https://www.lua.org/download.html)
 2. Faça o download deste projeto.
@@ -9,7 +9,7 @@ Trabalho acadêmico feito durante a matéria de Compiladores do curso de Ciênci
 4. Salve este arquivo criado dentro da pasta do projeto.
 5. Abra o terminal na pasta onde se encontra o projeto.
 6. Execute: `lua compilador.lua`
-7. Pronto, um arquivo .c com mesmo nome é criado e poderá perfeitamente ser executado no compilador de linguagem c. 
+7. Pronto, um arquivo chamado programa.c é criado e poderá ser executado no compilador de linguagem c.
 
 
 ## Informações do projeto:
@@ -47,7 +47,7 @@ Trabalho acadêmico feito durante a matéria de Compiladores do curso de Ciênci
   * CORPO -> COND CORPO
   * CORPO -> fimse
   * A -> fim
-  
+
 * O projeto foi dividido em três fases: Analisador léxico, Analisador sintático e Analisador semântico.
   * Analisador léxico: Foi implementado o DFA (autômato finito deterministico) da linguagem mgol e realizada a identificação de todos os lexemas, definindo sus respectivos token e tipo.
   * Analisador sintático: Foi implementado o autômato LR(0) e a tabela Shift/Reduce a partir deste para realizar a análise em uma abordagem Bottom-Up.

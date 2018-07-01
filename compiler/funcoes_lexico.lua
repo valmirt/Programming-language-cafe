@@ -7,14 +7,11 @@
 	-Funções necessárias e o analisador léxico-
 ]]
 
-function analisador_lexico (j)
-	local i = j
+function analisador_lexico ()
 	local lexema = ''
 
 	--Recupera a matriz que representa os estados de transição do DFA
 	local dfa = dfa_regular()
-	--Variável que compara se é o fim do arquivo
-	local fim_arquivo = compara_final()
 
 	--Buffer usado para caminhar no dfa
 	local buffer = {
@@ -33,11 +30,11 @@ function analisador_lexico (j)
 	--Repete até voltar pro estado inicial ou estado de rejeição
 	repeat
 		--Transfere os dados do arquivo para memoria principal
-		local arquivo = le_arquivo(i)
+		local char, end_f = return_char()
 
 		--Fim do arquivo
-		if fim_arquivo == arquivo then
-			is_end = true
+		if end_f then
+			end_file = true
 			if buffer.estado_atual == 10 then
 				print('Erro! Aspas não foram fechadas.')
 				erro = true
@@ -50,10 +47,7 @@ function analisador_lexico (j)
 		end
 		--Salva o estado anterior
 		buffer.estado_anterior = buffer.estado_atual
-
-		--Pega sempre o ultimo caractere do arquivo
-		buffer.entrada = string.sub(arquivo, -1)
-
+		buffer.entrada = char
 		--Caractere +
 		if string.byte(buffer.entrada) == 43 then
 			buffer.estado_atual = dfa[buffer.estado_atual][1]
@@ -121,7 +115,7 @@ function analisador_lexico (j)
 		elseif string.byte(buffer.entrada) == 58 or string.byte(buffer.entrada) == 92 then
 			buffer.estado_atual = dfa[buffer.estado_atual][21]
 		else
-			print ('Erro! caractere inválido na posição '.. i..' do arquivo')
+			print ('Erro linha '..num_row..': caractere "'..buffer.entrada..'" inválido')
 			erro = true
 			return nil
 		end
@@ -129,8 +123,12 @@ function analisador_lexico (j)
 		if buffer.estado_atual ~= 1 and buffer.estado_atual ~= 22 then
 			--Armazena o lexema por caractere
 			lexema = lexema..buffer.entrada
-			--Incrementa i para ler o próximo caractere
-			i = i + 1
+		else
+			if buffer.estado_anterior ~= 1 then
+				if num_char > 1 then
+					num_char = num_char - 1
+				end
+			end
 		end
 	--Condição de parada do repeat-until
 	until buffer.estado_atual == 1 or buffer.estado_atual == 22
@@ -139,7 +137,6 @@ function analisador_lexico (j)
 	if buffer.estado_atual == 1 then
 		if buffer.estado_anterior == 1 then
 			t = false
-			i = i + 1
 		elseif buffer.estado_anterior == 2 then
 			t.token = 'opm'
 			t.lexema = lexema
@@ -194,7 +191,7 @@ function analisador_lexico (j)
 			t.is_terminal = true
 		end
 	else
-		print ('Erro! caractere inválido na posição '.. i..' do arquivo')
+		print ('Erro linha '..num_row..': caractere "'..buffer.entrada..'" inválido')
 		erro = true
 		return nil
 	end
@@ -202,7 +199,7 @@ function analisador_lexico (j)
 	local aux = compara_token(t)
 	t = aux
 
-	return t, i
+	return t
 end
 
 function dfa_regular ()

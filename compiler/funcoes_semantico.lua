@@ -55,7 +55,7 @@ function analisador_semantico (file, regra, producao)
 				elseif terminal[2].tipo == 'real' then
 					file = file..'scanf("%1f", &'..terminal[2].lexema..');\n'
 				else
-					print('Erro!! Variável '..terminal[2].lexema..' não declarada...')
+					print('Erro linha '..num_row..': variável "'..terminal[2].lexema..'" não declarada...')
 					erro = true
 					erro_semantico = true
 				end
@@ -74,7 +74,7 @@ function analisador_semantico (file, regra, producao)
 			file = file..'printf('..n_terminal[1].lexema..');\n'
 		else
 			--Se não tem tipo é pq é uma varável e não foi declarada
-			print('Erro!! Variável '..terminal[2].lexema..' não declarada...')
+			print('Erro linha '..num_row..': variável "'..n_terminal[1].lexema..'" não declarada...')
 			erro = true
 			erro_semantico = true
 		end
@@ -97,7 +97,7 @@ function analisador_semantico (file, regra, producao)
 			end
 		end
 		if not flag then
-			print('Erro!! Variável '..terminal[1].lexema..' não declarada...')
+			print('Erro linha '..num_row..': variável "'..terminal[1].lexema..'" não declarada...')
 			erro = true
 			erro_semantico = true
 		end
@@ -109,7 +109,7 @@ function analisador_semantico (file, regra, producao)
 		for i = 1, #tabela_simbolos do
 			if tabela_simbolos[i].lexema == terminal[3].lexema then
 				if tabela_simbolos[i].tipo == nil then
-					print('Erro!! Variável '..terminal[3].lexema..' não declarada...')
+					print(' Erro linha '..num_row..': variável "'..terminal[3].lexema..'" não declarada...')
 					erro = true
 					erro_semantico = true
 				else
@@ -118,7 +118,7 @@ function analisador_semantico (file, regra, producao)
 						n_terminal[1].tipo == 'int' or n_terminal[1].tipo == 'real' then
 						file = file..tabela_simbolos[i].lexema..' '..terminal[2].tipo..' '..n_terminal[1].lexema..';\n'
 					else
-						print('Erro!! Tipos diferentes para atribuição ou Variável...')
+						print('Erro linha '..num_row..': tipos diferentes para atribuição ou variável...')
 						erro = true
 						erro_semantico = true
 					end
@@ -128,7 +128,7 @@ function analisador_semantico (file, regra, producao)
 			end
 		end
 		if not flag then
-			print('Erro!! Variável '..terminal[3].lexema..' não declarada...')
+			print('Erro linha '..num_row..': variável "'..terminal[3].lexema..'" não declarada...')
 			erro = true
 			erro_semantico = true
 		end
@@ -148,7 +148,7 @@ function analisador_semantico (file, regra, producao)
 			nao_terminais.OPRD1.is_used = false
 			nao_terminais.OPRD3.is_used = false
 		else
-			print('Erro!! Operandos de tipo inválido...')
+			print('Erro linha '..num_row..': operandos de tipo inválido...')
 			erro = true
 			erro_semantico = true
 		end
@@ -170,7 +170,7 @@ function analisador_semantico (file, regra, producao)
 		for i = 1, #tabela_simbolos do
 			if tabela_simbolos[i].lexema == terminal[1].lexema then
 				if tabela_simbolos[i].tipo == nil then
-					print('Erro!! Variável '..terminal[1].lexema..' não declarada...')
+					print('Erro linha '..num_row..': variável "'..terminal[1].lexema..'" não declarada...')
 					erro = true
 					erro_semantico = true
 				else
@@ -191,7 +191,7 @@ function analisador_semantico (file, regra, producao)
 			end
 		end
 		if not flag then
-			print('Erro!! Variável '..terminal[1].lexema..' não declarada...')
+			print('Erro linha '..num_row..':  variável "'..terminal[1].lexema..'" não declarada...')
 			erro = true
 			erro_semantico = true
 		end
@@ -230,7 +230,7 @@ function analisador_semantico (file, regra, producao)
 			nao_terminais.OPRD1.is_used = false
 			nao_terminais.OPRD3.is_used = false
 		else
-			print('Erro!! Operandos de tipo inválido...')
+			print('Erro linha '..num_row..': operandos de tipo inválido...')
 			erro = true
 			erro_semantico = true
 		end

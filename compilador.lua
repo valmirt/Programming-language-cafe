@@ -5,19 +5,24 @@
 	para linguagem C.
 ]]
 
-dofile('funcoes_auxiliares.lua')
-dofile('funcoes_lexico.lua')
-dofile('funcoes_sintatico.lua')
-dofile('funcoes_semantico.lua')
-dofile('stack.lua')
+dofile('compiler/funcoes_auxiliares.lua')
+dofile('compiler/funcoes_lexico.lua')
+dofile('compiler/funcoes_sintatico.lua')
+dofile('compiler/funcoes_semantico.lua')
+dofile('compiler/stack.lua')
 
 --Variáveis globais
 erro = false
 erro_semantico = false
-is_end = false
+enf_file = false
 num_temp = 0
+num_char = 1
+num_row = 1
+read_new_line = true
 tabela_simbolos = palavras_reservadas()
 nao_terminais = atributos_nterminais()
+code = le_arquivo()
+array_chars = {}
 
 function start_compilador()
 	local file

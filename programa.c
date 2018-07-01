@@ -8,13 +8,11 @@ int T2;
 int T3;
 int T4;
 int T5;
-int T6;
 /*-----------------------------*/
 lit A;
 int B;
 int D;
 double C;
-int E;
 
 
 
@@ -37,8 +35,6 @@ T5 = B + 3;
 B = T5;
 D = B;
 C = 5.0;
-T6 = C + B;
-E = T6;
 printf("\nB = ");
 printf("%d", D);
 printf("\n");

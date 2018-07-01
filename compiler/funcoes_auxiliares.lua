@@ -221,30 +221,42 @@ function create_file (content)
 	io.close(file)
 end
 
-function le_arquivo (i)
-	--abre o arquivo fonte.mgl
-	local file = io.open('fonte.mgl', 'r')
-	--seta o arquivo como entrada padrão
-	io.input(file)
-	--salva arquivo em uma variável
-	local string = io.read(i)
-	--fecha o arquivo
-	io.close(file)
-
-	return string
+function le_arquivo ()
+	local code = {}
+	--Dividindo em linhas para um feedback melhor de erro
+	for line in io.lines 'fonte.mgl' do
+		table.insert(code, line)
+	end
+	return code
 end
 
-function compara_final ()
-	--abre o arquivo fonte.mgl
-	local file = io.open('fonte.mgl', 'r')
-	--seta o arquivo como entrada padrão
-	io.input(file)
-	--salva arquivo em uma variável
-	local string = io.read('*a')
-	--fecha o arquivo
-	io.close(file)
+function read_line()
+	local chars = {}
+	for char in string.gmatch(code[num_row], ".") do
+		table.insert(chars, char)
+	end
+	return chars
+end
 
-	return string
+function return_char()
+	if read_new_line then
+		array_chars = read_line()
+	end
+
+	if array_chars[num_char] == nil then
+		if num_row < #code then
+			num_row = num_row + 1
+			num_char = 1
+			read_new_line = true
+			return '\n'
+		elseif num_row == #code then
+			return '\n', true
+		end
+	else
+		read_new_line = false
+		num_char = num_char + 1
+		return array_chars[num_char-1]
+	end
 end
 
 function print_tabela (tabela_tokens)
