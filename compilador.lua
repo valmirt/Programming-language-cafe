@@ -23,7 +23,6 @@ tabela_simbolos = palavras_reservadas()
 nao_terminais = atributos_nterminais()
 code = le_arquivo()
 array_chars = {}
-temp = ''
 
 function start_compilador()
 	local file

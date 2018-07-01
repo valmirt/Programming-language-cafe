@@ -250,12 +250,11 @@ function return_char()
 			read_new_line = true
 			return '\n'
 		elseif num_row == #code then
-			return nil
+			return ' ', true
 		end
 	else
 		read_new_line = false
 		num_char = num_char + 1
-		temp = temp..array_chars[num_char-1]
 		return array_chars[num_char-1]
 	end
 end

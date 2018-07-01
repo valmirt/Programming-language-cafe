@@ -30,11 +30,10 @@ function analisador_lexico ()
 	--Repete até voltar pro estado inicial ou estado de rejeição
 	repeat
 		--Transfere os dados do arquivo para memoria principal
-		local char = return_char()
+		local char, end_file = return_char()
 
 		--Fim do arquivo
-
-		if char == nil then
+		if end_file then
 			is_end = true
 			if buffer.estado_atual == 10 then
 				print('Erro! Aspas não foram fechadas.')
@@ -45,7 +44,6 @@ function analisador_lexico ()
 				erro = true
 				return nil
 			end
-			return nil
 		end
 		--Salva o estado anterior
 		buffer.estado_anterior = buffer.estado_atual
@@ -125,6 +123,12 @@ function analisador_lexico ()
 		if buffer.estado_atual ~= 1 and buffer.estado_atual ~= 22 then
 			--Armazena o lexema por caractere
 			lexema = lexema..buffer.entrada
+		else
+			if buffer.estado_anterior ~= 1 then
+				if num_char > 1 then
+					num_char = num_char - 1
+				end
+			end
 		end
 	--Condição de parada do repeat-until
 	until buffer.estado_atual == 1 or buffer.estado_atual == 22
@@ -187,7 +191,7 @@ function analisador_lexico ()
 			t.is_terminal = true
 		end
 	else
-		print ('Erro! caractere inválido na posição '.. i..' do arquivo')
+		print ('Erro! caractere inválido na posição do arquivo')
 		erro = true
 		return nil
 	end
