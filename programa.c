@@ -13,6 +13,7 @@ lit A;
 int B;
 int D;
 double C;
+int E;
 
 
 
@@ -35,6 +36,7 @@ T5 = B + 3;
 B = T5;
 D = B;
 C = 5.0;
+E = B;
 printf("\nB = ");
 printf("%d", D);
 printf("\n");
