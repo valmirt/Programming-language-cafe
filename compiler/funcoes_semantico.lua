@@ -114,8 +114,8 @@ function analisador_semantico (file, regra, producao)
 					erro_semantico = true
 				else
 					if tabela_simbolos[i].tipo == n_terminal[1].tipo or
-						tabela_simbolos[i].tipo == 'int' or tabela_simbolos[i].tipo == 'real' and
-						n_terminal[1].tipo == 'int' or n_terminal[1].tipo == 'real' then
+						((tabela_simbolos[i].tipo == 'int' or tabela_simbolos[i].tipo == 'real') and
+						(n_terminal[1].tipo == 'int' or n_terminal[1].tipo == 'real')) then
 						file = file..tabela_simbolos[i].lexema..' '..terminal[2].tipo..' '..n_terminal[1].lexema..';\n'
 					else
 						print('Erro linha '..num_row..': tipos diferentes para atribuição ou variável...')
