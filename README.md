@@ -4,7 +4,7 @@ Trabalho acadêmico feito durante a matéria de Compiladores do curso de Ciênci
 ## Executando o projeto (Somente linux):
 
 1. Faça o download do compilador Lua [AQUI](https://www.lua.org/download.html)
-2. Faça o download deste projeto.
+2. Faça o download da última versão deste projeto [AQUI](https://github.com/valmirt/Compilador-em-lua/releases/latest)
 3. Escreva qualquer código seguindo as regras sintáticas descritas abaixo e nomeie o arquivo como fonte.mgl
 4. Salve este arquivo criado dentro da pasta do projeto.
 5. Abra o terminal na pasta onde se encontra o projeto.
