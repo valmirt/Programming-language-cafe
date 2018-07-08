@@ -1,9 +1,9 @@
 {
 	Valmir Torres de Jesus Junior
-	Compiladores 24-06-2018
+	date: 07-07-2018
 
-	Compilador feito em lua que dado um arquivo em Mgol e convertido
-	para linguagem C.
+	The compiler made in Lua that receives a .coffee file
+	and translates to C language.
 
 	-Arquivo de texto que sera traduzido-
 }
