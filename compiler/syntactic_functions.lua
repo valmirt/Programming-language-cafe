@@ -115,7 +115,11 @@ function syntactic_analyzer(content)
 				print('S -> P')
 				print(sr_table[top][terminal].action)
 				break
-			else print('Line error '..num_row..':'..sr_table[top][terminal].action) break end
+			else
+				print('Line error '..num_row..':'..sr_table[top][terminal].action)
+				error = true
+				break 
+			end
 		end
 	end
 	return content
