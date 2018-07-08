@@ -1,54 +1,26 @@
-# Compilador em Lua
-Trabalho acadêmico feito durante a matéria de Compiladores do curso de Ciência da Computação pela Universidade Federal de Goiás.
+# The Programmming Language Café
+Originally developed as a college work, Café is a small programming language that compiles into Lua. Café has a simple and very good syntax to learn the fundamentals of structured programming.
 
-## Executando o projeto (Somente linux):
+## Running the project (Linux only)
+1. Download the Lua compiler [HERE](https://www.lua.org/download.html).
+2. Download the latest version of this project [HERE](https://github.com/valmirt/Compilador-em-lua/releases/latest).
+3. Write any code following the syntax rules described [HERE](https://github.com/valmirt/Programming-language-cafe/wiki) and name the file as font.cafe
+4. Save this created file into the project folder.
+5. Open the terminal in the folder where the project is located.
+6. Run: `lua compiler.lua`
+7. All ready! A file named program.c is created and can be run in the c language compiler.
 
-1. Faça o download do compilador Lua [AQUI](https://www.lua.org/download.html)
-2. Faça o download da última versão deste projeto [AQUI](https://github.com/valmirt/Compilador-em-lua/releases/latest)
-3. Escreva qualquer código seguindo as regras sintáticas descritas abaixo e nomeie o arquivo como fonte.mgl
-4. Salve este arquivo criado dentro da pasta do projeto.
-5. Abra o terminal na pasta onde se encontra o projeto.
-6. Execute: `lua compilador.lua`
-7. Pronto, um arquivo chamado programa.c é criado e poderá ser executado no compilador de linguagem c.
+## Project Information
+For more details on how this project is being developed, access this [FILE](https://github.com/valmirt/Programming-language-cafe/wiki/Project-Information).
 
+## Contributing
+* Put a star, spread the word and if you want to offer me a free beer [DONATE]().
+* If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request.
+* When submitting code, please make every effort to follow existing conventions and style in order to keep the code as readable as possible. Please also make sure your code compiles.
 
-## Informações do projeto:
+## Author
+**Valmir Torres de Jesus Júnior**
+* https://github.com/valmirt
 
-* Compilador implementado na linguagem de programação lua, onde interpreta uma linguagem escrita em mgol e converte para linguagem c.
-
-* Gramática livre de contexto da linguagem mgol:
-  * S -> P
-  * P -> inicio V A
-  * V -> varinicio LV
-  * LV -> D LV
-  * LV -> varfim;
-  * D -> id TIPO;
-  * TIPO -> int
-  * TIPO -> real
-  * TIPO -> lit
-  * A -> ES A
-  * ES -> leia id;
-  * ES -> escreva ARG;
-  * ARG -> literal
-  * ARG -> num
-  * ARG -> id
-  * A -> CMD A
-  * CMD -> id rcb LD;
-  * LD -> OPRD opm OPRD
-  * LD -> OPRD
-  * OPRD -> id
-  * OPRD -> num
-  * A -> COND A
-  * COND -> CABEÇALHO CORPO
-  * CABEÇALHO -> se (EXP_R) entao
-  * EXP_R -> OPRD opr OPRD
-  * CORPO -> ES CORPO
-  * CORPO -> CMD CORPO
-  * CORPO -> COND CORPO
-  * CORPO -> fimse
-  * A -> fim
-
-* O projeto foi dividido em três fases: Analisador léxico, Analisador sintático e Analisador semântico.
-  * Analisador léxico: Foi implementado o DFA (autômato finito deterministico) da linguagem mgol e realizada a identificação de todos os lexemas, definindo sus respectivos token e tipo.
-  * Analisador sintático: Foi implementado o autômato LR(0) e a tabela Shift/Reduce a partir deste para realizar a análise em uma abordagem Bottom-Up.
-  * Analisador semântico: Foi implementado a tabela de regras semânticas e atribuidas estas regras após as reduções das regras no processo de análise sintática, efetuando assim a aplicação da tradução semântica dirigida pela sintaxe.
+## License
+Café is released under the MIT license. See [LICENSE](Programming-language-cafe/LICENSE) for details.
