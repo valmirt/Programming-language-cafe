@@ -18,5 +18,9 @@ For more details on how this project is being developed, access this [FILE](http
 * If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request.
 * When submitting code, please make every effort to follow existing conventions and style in order to keep the code as readable as possible. Please also make sure your code compiles.
 
+## Author
+**Valmir Torres de Jesus Júnior**
+* https://github.com/valmirt
+
 ## License
 Café is released under the MIT license. See [LICENSE](Programming-language-cafe/LICENSE) for details.
