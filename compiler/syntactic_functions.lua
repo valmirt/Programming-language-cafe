@@ -1,7 +1,7 @@
 --[[Valmir Torres de Jesus Junior
 	date: 07-07-2018
 
-	The compiler made in Lua that receives a .coffee file
+	The compiler made in Lua that receives a .cafe file
 	and translates to C language.
 
 	-Syntactic Functions-
@@ -118,7 +118,7 @@ function syntactic_analyzer(content)
 			else
 				print('Line error '..num_row..':'..sr_table[top][terminal].action)
 				error = true
-				break 
+				break
 			end
 		end
 	end
@@ -137,7 +137,7 @@ function syntactic_table ()
 	--index 1-21 = terminais
 	--index 22-36 = nonterminais
 	for i = 1, 59 do
-		--Table with description of the syntactic errors to aid in the debugging of the .coffee programmer
+		--Table with description of the syntactic errors to aid in the debugging of the .cafe programmer
 		shift_reduce_table[i][1] = { ['action'] = ' Bad syntax... inicio disposto de forma incorreta.', ['state'] = nil,}
 		shift_reduce_table[i][2] = { ['action'] = ' Bad syntax... varinicio disposto de forma incorreta.', ['state'] = nil,}
 		shift_reduce_table[i][3] = { ['action'] = ' Bad syntax... varfim disposto de forma incorreta.', ['state'] = nil,}

@@ -1,7 +1,7 @@
 --[[Valmir Torres de Jesus Junior
 	date: 07-07-2018
 
-	The compiler made in Lua that receives a .coffee file
+	The compiler made in Lua that receives a .cafe file
 	and translates to C language.
 
     -Stack Table-

@@ -1,7 +1,7 @@
 --[[Valmir Torres de Jesus Junior
 	date: 07-07-2018
 
-	The compiler made in Lua that receives a .coffee file
+	The compiler made in Lua that receives a .cafe file
 	and translates to C language.
 
 	-Auxiliary Functions-
@@ -33,7 +33,7 @@ function check_token (token)
 end
 
 function glc_grammar ()
-	--Coffee Language Context-Free Grammar
+	--cafe Language Context-Free Grammar
 	local glc = {
 		[1] = {
 			['symbol'] = 'S',
@@ -224,7 +224,7 @@ end
 function read_file ()
 	local code = {}
 	--dividing into lines for better error feedback
-	for line in io.lines 'font.coffee' do
+	for line in io.lines 'font.cafe' do
 		table.insert(code, line)
 	end
 	return code
@@ -260,7 +260,7 @@ function return_char()
 end
 
 function print_table (token_table)
-	--prints the tokens found in the file font.coffee
+	--prints the tokens found in the file font.cafe
 	for i = 1, #token_table do
 		print ('------------------------------------')
 		print (i)
