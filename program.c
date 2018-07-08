@@ -2,7 +2,7 @@
 typedef char lit[256];
 
 void main (void) {
-/*----Variaveis temporarias----*/
+/*----Temporary variables----*/
 int T1;
 int T2;
 int T3;

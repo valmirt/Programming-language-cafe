@@ -1,24 +1,21 @@
---[[Valmir Torres de Jesus Junior		128745
-	Compiladores 31-05-2018
-		
-	Compilador feito em lua que dado um arquivo em Mgol é convertido
-	para linguagem C.
-	
-	-Stack Table-
-	Original disponível em: http://lua-users.org/wiki/SimpleStack
+--[[Valmir Torres de Jesus Junior
+	date: 07-07-2018
+
+	The compiler made in Lua that receives a .coffee file
+	and translates to C language.
+
+    -Stack Table-
+    Available at: http://lua-users.org/wiki/SimpleStack
 ]]
 
 -- GLOBAL
 Stack = {}
 
--- Cria a tabela com as funções de pilha
 function Stack:Create()
-    -- tabela que representa a pilha
     local t = {}
     -- entry table
     t._et = {}
 
-    -- insere valores na pilha
     function t:push(...)
         if ... then
             local targs = {...}
@@ -29,9 +26,7 @@ function Stack:Create()
         end
     end
 
-    -- remove um valor da pilha
     function t:pop(num)
-        --pega um valor da pilha
         local num = num or 1
         -- return table
         local entries = {}
@@ -51,17 +46,17 @@ function Stack:Create()
         return table.unpack(entries)
     end
 
-    --recupera as entradas
+    --return the entries
     function t:getn()
         return #self._et
     end
-    
-    --recupera o valor do topo da pilha
-    function t:topo()
+
+    --return the value from the top of the stack
+    function t:top()
         return self._et[#self._et]
     end
 
-    -- lista os valores da pilha
+    --list the values of the stack
     function t:list()
         for i,v in pairs(self._et) do
         print(i, v)
