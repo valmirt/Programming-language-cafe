@@ -1,4 +1,4 @@
-# The Programmming Language Café
+# The Programming Language Café
 Originally developed as a college work, Café is a small programming language that compiles into Lua. Café has a simple and very good syntax to learn the fundamentals of structured programming.
 
 ## Running the project (Linux only)
