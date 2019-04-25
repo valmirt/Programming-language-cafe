@@ -13,22 +13,23 @@
 local Symbol_table = require("interpreter/common/Symbol_table")
 local Semantic_utils = require("interpreter/semantic/Semantic_utils")
 local Commons = require("interpreter/common/Commons")
+local Error = require("system/error/Error")
 
 local nonterminals = Semantic_utils.nonterminal_attributes()
 
 local Semantic = {
-    analyze = function (file, rule, production, num_row)
+    analyze = function (file, rule, production)
         local terminal = {}
         local n_terminal = {}
         -- local symbol_table = Common.reserved_words()
-    
+
         for i = 1, #production do
             if production[i].is_terminal then
                 table.insert(terminal, production[i])
             else table.insert(n_terminal, production[i])
             end
         end
-    
+
         --For each rule of grammar we have a block of semantic rules to be executed
         if rule == 5 then
             file = file..'\n\n\n'
@@ -58,7 +59,8 @@ local Semantic = {
                     elseif terminal[2].type == 'real' then
                         file = file..'scanf("%1f", &'..terminal[2].lexeme..');\n'
                     else
-                        print('Line error '..num_row..': variable "'..terminal[2].lexeme..'" not declared.')
+                        --Not declared error
+                        Error.print_semantic_error(Commons.num_row, 1, terminal[2].lexeme)
                         Commons.error = true
                     end
                     break
@@ -74,7 +76,8 @@ local Semantic = {
             elseif n_terminal[1].type == 'literal' then
                 file = file..'printf('..n_terminal[1].lexeme..');\n'
             else
-                print('Line error '..num_row..': variable "'..terminal[1].lexeme..'" not declared.')
+                --Not declared error
+                Error.print_semantic_error(Commons.num_row, 1, terminal[1].lexeme)
                 Commons.error = true
             end
         elseif rule == 13 or rule == 14 then
@@ -93,16 +96,18 @@ local Semantic = {
                 end
             end
             if not flag then
-                print('Line error '..num_row..': variable "'..terminal[1].lexeme..'" not declared.')
+                --Not declared error
+                Error.print_semantic_error(Commons.num_row, 1, terminal[1].lexeme)
                 Commons.error = true
             end
         elseif rule == 17 then
             local flag = false
-    
+
             for i = 1, #Symbol_table do
                 if Symbol_table[i].lexeme == terminal[3].lexeme then
                     if Symbol_table[i].type == nil then
-                        print('Line error '..num_row..': variable "'..terminal[3].lexeme..'" not declared.')
+                        --Not declared error
+                        Error.print_semantic_error(Commons.num_row, 1, terminal[3].lexeme)
                         Commons.error = true
                     else
                         if Symbol_table[i].type == n_terminal[1].type or
@@ -110,7 +115,8 @@ local Semantic = {
                             (n_terminal[1].type == 'int' or n_terminal[1].type == 'real')) then
                             file = file..Symbol_table[i].lexeme..' '..terminal[2].type..' '..n_terminal[1].lexeme..';\n'
                         else
-                            print('Line error '..num_row..': different types for assignment.')
+                            --Different types assignment
+                            Error.print_semantic_error(Commons.num_row, 2)
                             Commons.error = true
                         end
                     end
@@ -119,7 +125,8 @@ local Semantic = {
                 end
             end
             if not flag then
-                print('Line error '..num_row..': variable "'..terminal[3].lexeme..'" not declared.')
+                --Not declared error
+                Error.print_semantic_error(Commons.num_row, 1, terminal[3].lexeme)
                 Commons.error = true
             end
         elseif rule == 18 then
@@ -130,31 +137,33 @@ local Semantic = {
                 nonterminals.LD.type = n_terminal[1].type
                 nonterminals.LD.lexeme = 'T'..Commons.number_var
                 file = file..'T'..Commons.number_var..' = '..t..';\n'
-    
+
                 nonterminals.OPRD.is_used = false
                 nonterminals.OPRD2.is_used = false
                 nonterminals.OPRD1.is_used = false
                 nonterminals.OPRD3.is_used = false
             else
-                print('Line error '..num_row..': different types for assignment.')
+                --Different types assignment
+                Error.print_semantic_error(Commons.num_row, 2)
                 Commons.error = true
             end
         elseif rule == 19 then
             nonterminals.LD.token = n_terminal[1].token
             nonterminals.LD.lexeme = n_terminal[1].lexeme
             nonterminals.LD.type = n_terminal[1].type
-    
+
             nonterminals.OPRD.is_used = false
             nonterminals.OPRD2.is_used = false
             nonterminals.OPRD1.is_used = false
             nonterminals.OPRD3.is_used = false
         elseif rule == 20 then
             local flag = false
-    
+
             for i = 1, #Symbol_table do
                 if Symbol_table[i].lexeme == terminal[1].lexeme then
                     if Symbol_table[i].type == nil then
-                        print('Line error '..num_row..': variable "'..terminal[1].lexeme..'" not declared.')
+                        --Not declared error
+                        Error.print_semantic_error(Commons.num_row, 1, terminal[1].lexeme)
                         Commons.error = true
                     else
                         if not nonterminals.OPRD.is_used then
@@ -174,7 +183,8 @@ local Semantic = {
                 end
             end
             if not flag then
-                print('Line error '..num_row..': variable "'..terminal[1].lexeme..'" not declared.')
+                --Not declared error
+                Error.print_semantic_error(Commons.num_row, 1, terminal[1].lexeme)
                 Commons.error = true
             end
         elseif rule == 21 then
@@ -198,20 +208,21 @@ local Semantic = {
                 n_terminal[2].type == 'int' or n_terminal[2].type == 'real' then
                 Commons.number_var = Commons.number_var + 1
                 local t = n_terminal[2].lexeme..' '..terminal[1].type..' '..n_terminal[1].lexeme
-    
+
                 nonterminals.EXP_R.lexeme = 'T'..Commons.number_var
                 file = file..'T'..Commons.number_var..' = '..t..';\n'
-    
+
                 nonterminals.OPRD.is_used = false
                 nonterminals.OPRD2.is_used = false
                 nonterminals.OPRD1.is_used = false
                 nonterminals.OPRD3.is_used = false
             else
-                print('Line error '..num_row..': different types for assignment.')
+                --Different types assignment
+                Error.print_semantic_error(Commons.num_row, 2)
                 Commons.error = true
             end
         end
-    
+
         return file
     end,
     alpha_gen = function (temp_state, alpha_name)

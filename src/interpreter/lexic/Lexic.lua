@@ -1,6 +1,6 @@
 --[[Valmir Torres de Jesus Junior
     date: 23-04-2019
-    
+
     Lexical analyzer: The DFA (finite deterministic automaton)
     of the .vt language was implemented and all the lexemes were
     identified, defining their respective token and type.
@@ -10,25 +10,25 @@
 local Lexic_utils = require("interpreter/lexic/Lexic_utils")
 local Utils = require("utils/Utils")
 local Commons = require("interpreter/common/Commons")
+local Error = require("system/error/Error")
 
 local read_new_line = true
 local array_chars
 local num_char = 1
-local num_row = 1
 local code = Utils.read_file()
 local dfa = Lexic_utils.regular_dfa()
 
 local return_char = function ()
     if read_new_line then
-        array_chars = Utils.read_line(code, num_row)
+        array_chars = Utils.read_line(code, Commons.num_row)
     end
     if array_chars[num_char] == nil then
-        if num_row < #code then
-            num_row = num_row + 1
+        if Commons.num_row < #code then
+            Commons.num_row = Commons.num_row + 1
             num_char = 1
             read_new_line = true
             return '\n', false
-        elseif num_row == #code then
+        elseif Commons.num_row == #code then
             return '\n', true
         end
     else
@@ -40,9 +40,7 @@ end
 
 
 local Lexic = {
-    analyze = function (row)
-        --Update the row of font.vt
-        num_row = row
+    analyze = function ()
         local lexeme = ''
         --buffer used to walk in DFA
         local buffer = {
@@ -71,11 +69,11 @@ local Lexic = {
                 if buffer.current_state == 10 then
                     print('Error: Quotes were not closed.')
                     Commons.error = true
-                    return nil, num_row, end_f
+                    return nil, end_f
                 elseif buffer.current_state == 12 then
                     print('Error: Keys were not closed.')
                     Commons.error = true
-                    return nil, num_row, end_f
+                    return nil, end_f
                 end
             end
             --Save the previous_state
@@ -148,9 +146,9 @@ local Lexic = {
             elseif string.byte(buffer.entry) == 58 or string.byte(buffer.entry) == 92 then
                 buffer.current_state = dfa[buffer.current_state][21]
             else
-                print ('Line error '..num_row..': invalid character "'..buffer.entry..'".')
+                Error.print_lexic_error(Commons.num_row, buffer.entry)
                 Commons.error = true
-                return nil, num_row, end_f
+                return nil, end_f
             end
 
             if buffer.current_state ~= 1 and buffer.current_state ~= 22 then
@@ -224,13 +222,13 @@ local Lexic = {
                 terminal.is_terminal = true
             end
         else
-            print ('Line error '..num_row..': invalid character "'..buffer.entry..'".')
+            Error.print_lexic_error(Commons.num_row, buffer.entry)
             Commons.error = true
-            return nil, num_row, end_f
+            return nil, end_f
         end
 
         terminal = Lexic_utils.check_token(terminal)
-        return terminal, num_row, end_f
+        return terminal, end_f
     end
 }
 

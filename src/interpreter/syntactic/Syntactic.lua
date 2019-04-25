@@ -1,7 +1,7 @@
 --[[Valmir Torres de Jesus Junior
 	date: 23-04-2019
 
-    Syntactic analyzer: The LR (0) automaton and the Shift / Reduce table 
+    Syntactic analyzer: The LR (0) automaton and the Shift / Reduce table
     were implemented to perform the syntactic analysis in a Bottom-Up approach.
 
 	-Syntactic Functions-
@@ -13,16 +13,17 @@ local Lexic = require("interpreter/lexic/Lexic")
 local Syntactic_utils = require("interpreter/syntactic/Syntactic_utils")
 local Semantic = require("interpreter/semantic/Semantic")
 local Commons = require("interpreter/common/Commons")
+local Error = require("system/error/Error")
+
 
 local Syntactic = {
-    analyze = function(content, row)
+    analyze = function(content)
         local glc = Syntactic_utils.glc_grammar()
         local terminals_table = Syntactic_utils.terminals_list()
         local nonterminals_table = Syntactic_utils.nonterminals_list()
         local sr_table = Syntactic_utils.syntactic_table()
         local token_table = {}
         local lexical_word
-        local num_row = row
         local reduce_control = false
         local end_file = false
 
@@ -33,7 +34,7 @@ local Syntactic = {
             if not reduce_control then
                 --Receive table with defined token, lexeme and type
                 if not end_file and not Commons.error then
-                    lexical_word, num_row, end_file = Lexic.analyze(num_row)
+                    lexical_word, end_file = Lexic.analyze()
                     if lexical_word ~= false then table.insert(token_table, lexical_word) end
                     if Commons.error then break end
                 elseif end_file then
@@ -42,7 +43,7 @@ local Syntactic = {
             end
 
             local top = stack:top()
-            
+
             --Ignore tab, space, \n and comment
             if lexical_word ~= false and lexical_word.token ~= 'comentario' then
                 --Defining the number that represents the terminal according
@@ -86,9 +87,11 @@ local Syntactic = {
                     end
                     --Update the top
                     top = stack:top()
-                    --It calls the semantic parser that assigns the semantic rule driven by syntax
-                    content = Semantic.analyze(content, temp_state, production, num_row)
-                    --Generating the alpha variable with the attributes token, type and lexeme
+                    --It calls the semantic parser that assigns the semantic
+                    --rule driven by syntax
+                    content = Semantic.analyze(content, temp_state, production)
+                    --Generating the alpha variable with the attributes
+                    --token, type and lexeme
                     local alpha = Semantic.alpha_gen(temp_state, alpha_name)
                     local nonterminal
                     for k, v in pairs (nonterminals_table) do
@@ -107,7 +110,8 @@ local Syntactic = {
                     print(sr_table[top][terminal].action)
                     break
                 else
-                    print('Line error '..num_row..':'..sr_table[top][terminal].action)
+                    print(top, terminal)
+                    Error.print_syntactic_error(Commons.num_row, sr_table[top][terminal].action)
                     Commons.error = true
                     break
                 end

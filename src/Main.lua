@@ -13,12 +13,11 @@ local Commons = require("interpreter/common/Commons")
 local SIZE_STRING = 256
 
 local start_compiler = function ()
-	local num_row = 1
 	local file
 	--defining the header of program.c
 	file = '#include <stdio.h>\ntypedef char lit['..SIZE_STRING..'];\n\nvoid main (void) {\n@'
 
-	file = Syntactic.analyze(file, num_row)
+	file = Syntactic.analyze(file)
 
 	--create temporary variables
 	if Commons.number_var > 0 then
