@@ -8,12 +8,8 @@
 -- import packages
 local Utils = require("utils/Utils")
 local Syntactic = require("interpreter/syntactic/Syntactic")
-local Common = require("interpreter/common/Common")
+local Commons = require("interpreter/common/Commons")
 
---Global Variables
-ERROR = false
-VAR_TEMP = 0
-symbol_table = Common.reserved_words()
 local SIZE_STRING = 256
 
 local start_compiler = function ()
@@ -25,9 +21,9 @@ local start_compiler = function ()
 	file = Syntactic.analyze(file, num_row)
 
 	--create temporary variables
-	if VAR_TEMP > 0 then
+	if Commons.number_var > 0 then
 		file = string.gsub(file, '@', '/*----Temporary variables----*/\n@')
-		for i = 1, VAR_TEMP do
+		for i = 1, Commons.number_var do
 			file = string.gsub(file, '@', 'int T'..i..';\n@')
 		end
 		file = string.gsub(file, '@', '/*-----------------------------*/\n@')
@@ -35,7 +31,7 @@ local start_compiler = function ()
 	file = string.gsub(file, '@', '')
 	--Finishing the program.c
 	file = file..'}\n'
-	if not ERROR then
+	if not Commons.error then
 		Utils.create_file(file)
 	end
 end

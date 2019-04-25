@@ -3,9 +3,10 @@
     
     Lexical Utils: Functions utils to Lexical analyzer
 ]]
--- local Common = require("interpreter/common/Common")
 
-local Lexical_utils = {
+local Symbol_table = require("interpreter/common/Symbol_table")
+
+local Lexic_utils = {
     --function that checks if the token is a reserved word
     check_token = function (token)
         -- local symbol_table = Common.reserved_words()
@@ -15,16 +16,16 @@ local Lexical_utils = {
         if temp ~= false then
             if temp.token == 'id' then
                 --check if it already exists in the symbol table
-                for i = 1, #symbol_table do
-                    if symbol_table[i].lexeme == temp.lexeme then
-                        temp = symbol_table[i]
+                for i = 1, #Symbol_table do
+                    if Symbol_table[i].lexeme == temp.lexeme then
+                        temp = Symbol_table[i]
                         flag = true
                         break
                     end
                 end
                 --inserts the id not found before in the symbol table
                 if flag == false then
-                    table.insert(symbol_table, temp)
+                    table.insert(Symbol_table, temp)
                 end
             end
         end
@@ -153,4 +154,4 @@ local Lexical_utils = {
     end
 }
 
-return Lexical_utils
+return Lexic_utils

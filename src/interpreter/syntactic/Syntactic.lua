@@ -9,9 +9,10 @@
 
 --import packages
 local Stack = require("utils/Stack")
-local Lexical = require("interpreter/lexical/Lexical")
+local Lexic = require("interpreter/lexic/Lexic")
 local Syntactic_utils = require("interpreter/syntactic/Syntactic_utils")
 local Semantic = require("interpreter/semantic/Semantic")
+local Commons = require("interpreter/common/Commons")
 
 local Syntactic = {
     analyze = function(content, row)
@@ -31,17 +32,17 @@ local Syntactic = {
         while true do
             if not reduce_control then
                 --Receive table with defined token, lexeme and type
-                if not end_file and not ERROR then
-                    lexical_word, num_row, end_file = Lexical.analyze(num_row)
+                if not end_file and not Commons.error then
+                    lexical_word, num_row, end_file = Lexic.analyze(num_row)
                     if lexical_word ~= false then table.insert(token_table, lexical_word) end
-                    if ERROR then break end
+                    if Commons.error then break end
                 elseif end_file then
                     lexical_word = {['token'] = '$'}
                 end
             end
 
             local top = stack:top()
-            print(top)
+            
             --Ignore tab, space, \n and comment
             if lexical_word ~= false and lexical_word.token ~= 'comentario' then
                 --Defining the number that represents the terminal according
@@ -99,7 +100,7 @@ local Syntactic = {
                     --inserts alpha and table state shift / reduce
                     local state = sr_table[top][nonterminal].state
                     stack:push(alpha, state)
-                    if ERROR then break end
+                    if Commons.error then break end
                 elseif sr_table[top][terminal].action == 'Accept' then
                     --Accepted all code syntax
                     print('S -> P')
@@ -107,7 +108,7 @@ local Syntactic = {
                     break
                 else
                     print('Line error '..num_row..':'..sr_table[top][terminal].action)
-                    ERROR = true
+                    Commons.error = true
                     break
                 end
             end

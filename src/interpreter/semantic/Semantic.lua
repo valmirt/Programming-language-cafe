@@ -6,12 +6,13 @@
     the process of syntactic analysis, thus effecting the application
     of semantic translation directed by the syntax.
 
-	-Syntactic Functions-
+	-Semantic Functions-
 ]]
 
 --import packages
--- local Common = require("interpreter/common/Common")
+local Symbol_table = require("interpreter/common/Symbol_table")
 local Semantic_utils = require("interpreter/semantic/Semantic_utils")
+local Commons = require("interpreter/common/Commons")
 
 local nonterminals = Semantic_utils.nonterminal_attributes()
 
@@ -32,9 +33,9 @@ local Semantic = {
         if rule == 5 then
             file = file..'\n\n\n'
         elseif rule == 6 then
-            for i = 1, #symbol_table do
-                if symbol_table[i].lexeme == terminal[2].lexeme then
-                    symbol_table[i].type = n_terminal[1].type
+            for i = 1, #Symbol_table do
+                if Symbol_table[i].lexeme == terminal[2].lexeme then
+                    Symbol_table[i].type = n_terminal[1].type
                     break
                 end
             end
@@ -42,14 +43,14 @@ local Semantic = {
                 file = file..'double '..terminal[2].lexeme..';\n'
             else file = file..n_terminal[1].type..' '..terminal[2].lexeme..';\n' end
         elseif rule == 7 then
-            nonterminals.TIPO.type = symbol_table[11].type
+            nonterminals.TIPO.type = Symbol_table[11].type
         elseif rule == 8 then
-            nonterminals.TIPO.type = symbol_table[13].type
+            nonterminals.TIPO.type = Symbol_table[13].type
         elseif rule == 9 then
-            nonterminals.TIPO.type = symbol_table[12].type
+            nonterminals.TIPO.type = Symbol_table[12].type
         elseif rule == 11 then
-            for i = 1, #symbol_table do
-                if symbol_table[i].lexeme == terminal[2].lexeme then
+            for i = 1, #Symbol_table do
+                if Symbol_table[i].lexeme == terminal[2].lexeme then
                     if terminal[2].type == 'lit' then
                         file = file..'scanf("%s", '..terminal[2].lexeme..');\n'
                     elseif terminal[2].type == 'int' then
@@ -58,7 +59,7 @@ local Semantic = {
                         file = file..'scanf("%1f", &'..terminal[2].lexeme..');\n'
                     else
                         print('Line error '..num_row..': variable "'..terminal[2].lexeme..'" not declared.')
-                        ERROR = true
+                        Commons.error = true
                     end
                     break
                 end
@@ -74,7 +75,7 @@ local Semantic = {
                 file = file..'printf('..n_terminal[1].lexeme..');\n'
             else
                 print('Line error '..num_row..': variable "'..terminal[1].lexeme..'" not declared.')
-                ERROR = true
+                Commons.error = true
             end
         elseif rule == 13 or rule == 14 then
             nonterminals.ARG.token = terminal[1].token
@@ -82,8 +83,8 @@ local Semantic = {
             nonterminals.ARG.type = terminal[1].type
         elseif rule == 15 then
             local flag = false
-            for i = 1, #symbol_table do
-                if symbol_table[i].lexeme == terminal[1].lexeme then
+            for i = 1, #Symbol_table do
+                if Symbol_table[i].lexeme == terminal[1].lexeme then
                     nonterminals.ARG.token = terminal[1].token
                     nonterminals.ARG.lexeme = terminal[1].lexeme
                     nonterminals.ARG.type = terminal[1].type
@@ -93,24 +94,24 @@ local Semantic = {
             end
             if not flag then
                 print('Line error '..num_row..': variable "'..terminal[1].lexeme..'" not declared.')
-                ERROR = true
+                Commons.error = true
             end
         elseif rule == 17 then
             local flag = false
     
-            for i = 1, #symbol_table do
-                if symbol_table[i].lexeme == terminal[3].lexeme then
-                    if symbol_table[i].type == nil then
+            for i = 1, #Symbol_table do
+                if Symbol_table[i].lexeme == terminal[3].lexeme then
+                    if Symbol_table[i].type == nil then
                         print('Line error '..num_row..': variable "'..terminal[3].lexeme..'" not declared.')
-                        ERROR = true
+                        Commons.error = true
                     else
-                        if symbol_table[i].type == n_terminal[1].type or
-                            ((symbol_table[i].type == 'int' or symbol_table[i].type == 'real') and
+                        if Symbol_table[i].type == n_terminal[1].type or
+                            ((Symbol_table[i].type == 'int' or Symbol_table[i].type == 'real') and
                             (n_terminal[1].type == 'int' or n_terminal[1].type == 'real')) then
-                            file = file..symbol_table[i].lexeme..' '..terminal[2].type..' '..n_terminal[1].lexeme..';\n'
+                            file = file..Symbol_table[i].lexeme..' '..terminal[2].type..' '..n_terminal[1].lexeme..';\n'
                         else
                             print('Line error '..num_row..': different types for assignment.')
-                            ERROR = true
+                            Commons.error = true
                         end
                     end
                     flag = true
@@ -119,16 +120,16 @@ local Semantic = {
             end
             if not flag then
                 print('Line error '..num_row..': variable "'..terminal[3].lexeme..'" not declared.')
-                ERROR = true
+                Commons.error = true
             end
         elseif rule == 18 then
             if n_terminal[1].type == 'int' or n_terminal[1].type == 'real' and
                 n_terminal[2].type == 'int' or n_terminal[2].type == 'real' then
-                VAR_TEMP = VAR_TEMP + 1
+                Commons.number_var = Commons.number_var + 1
                 local t = n_terminal[2].lexeme..' '..terminal[1].type..' '..n_terminal[1].lexeme
                 nonterminals.LD.type = n_terminal[1].type
-                nonterminals.LD.lexeme = 'T'..VAR_TEMP
-                file = file..'T'..VAR_TEMP..' = '..t..';\n'
+                nonterminals.LD.lexeme = 'T'..Commons.number_var
+                file = file..'T'..Commons.number_var..' = '..t..';\n'
     
                 nonterminals.OPRD.is_used = false
                 nonterminals.OPRD2.is_used = false
@@ -136,7 +137,7 @@ local Semantic = {
                 nonterminals.OPRD3.is_used = false
             else
                 print('Line error '..num_row..': different types for assignment.')
-                ERROR = true
+                Commons.error = true
             end
         elseif rule == 19 then
             nonterminals.LD.token = n_terminal[1].token
@@ -150,11 +151,11 @@ local Semantic = {
         elseif rule == 20 then
             local flag = false
     
-            for i = 1, #symbol_table do
-                if symbol_table[i].lexeme == terminal[1].lexeme then
-                    if symbol_table[i].type == nil then
+            for i = 1, #Symbol_table do
+                if Symbol_table[i].lexeme == terminal[1].lexeme then
+                    if Symbol_table[i].type == nil then
                         print('Line error '..num_row..': variable "'..terminal[1].lexeme..'" not declared.')
-                        ERROR = true
+                        Commons.error = true
                     else
                         if not nonterminals.OPRD.is_used then
                             nonterminals.OPRD.lexeme = terminal[1].lexeme
@@ -174,7 +175,7 @@ local Semantic = {
             end
             if not flag then
                 print('Line error '..num_row..': variable "'..terminal[1].lexeme..'" not declared.')
-                ERROR = true
+                Commons.error = true
             end
         elseif rule == 21 then
             if not nonterminals.OPRD1.is_used then
@@ -195,11 +196,11 @@ local Semantic = {
         elseif rule == 25 then
             if n_terminal[1].type == 'int' or n_terminal[1].type == 'real' and
                 n_terminal[2].type == 'int' or n_terminal[2].type == 'real' then
-                VAR_TEMP = VAR_TEMP + 1
+                Commons.number_var = Commons.number_var + 1
                 local t = n_terminal[2].lexeme..' '..terminal[1].type..' '..n_terminal[1].lexeme
     
-                nonterminals.EXP_R.lexeme = 'T'..VAR_TEMP
-                file = file..'T'..VAR_TEMP..' = '..t..';\n'
+                nonterminals.EXP_R.lexeme = 'T'..Commons.number_var
+                file = file..'T'..Commons.number_var..' = '..t..';\n'
     
                 nonterminals.OPRD.is_used = false
                 nonterminals.OPRD2.is_used = false
@@ -207,7 +208,7 @@ local Semantic = {
                 nonterminals.OPRD3.is_used = false
             else
                 print('Line error '..num_row..': different types for assignment.')
-                ERROR = true
+                Commons.error = true
             end
         end
     

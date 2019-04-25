@@ -1,7 +1,7 @@
 local Utils = {
     --Creates the final program.c
     create_file = function (content)
-        local file = io.open('/home/valmirt/Interpretador vt/Programming-language-cafe/build/program.c', 'w')
+        local file = io.open('../build/program.c', 'w')
         --sets the file as the standard output
         io.output(file)
         io.write(content)
@@ -12,7 +12,7 @@ local Utils = {
     read_file = function ()
         local code = {}
         --dividing into lines for better error feedback
-        for line in io.lines('/home/valmirt/Interpretador vt/Programming-language-cafe/font.cafe') do
+        for line in io.lines('../font.cafe') do
             table.insert(code, line)
         end
         return code

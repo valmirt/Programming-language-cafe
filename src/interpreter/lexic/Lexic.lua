@@ -7,15 +7,16 @@
 ]]
 
 --import packages
-local Lexical_utils = require("interpreter/lexical/Lexical_utils")
+local Lexic_utils = require("interpreter/lexic/Lexic_utils")
 local Utils = require("utils/Utils")
+local Commons = require("interpreter/common/Commons")
 
 local read_new_line = true
 local array_chars
 local num_char = 1
 local num_row = 1
 local code = Utils.read_file()
-local dfa = Lexical_utils.regular_dfa()
+local dfa = Lexic_utils.regular_dfa()
 
 local return_char = function ()
     if read_new_line then
@@ -38,7 +39,7 @@ local return_char = function ()
 end
 
 
-local Lexical = {
+local Lexic = {
     analyze = function (row)
         --Update the row of font.vt
         num_row = row
@@ -69,11 +70,11 @@ local Lexical = {
             if end_f then
                 if buffer.current_state == 10 then
                     print('Error: Quotes were not closed.')
-                    ERROR = true
+                    Commons.error = true
                     return nil, num_row, end_f
                 elseif buffer.current_state == 12 then
                     print('Error: Keys were not closed.')
-                    ERROR = true
+                    Commons.error = true
                     return nil, num_row, end_f
                 end
             end
@@ -148,7 +149,7 @@ local Lexical = {
                 buffer.current_state = dfa[buffer.current_state][21]
             else
                 print ('Line error '..num_row..': invalid character "'..buffer.entry..'".')
-                ERROR = true
+                Commons.error = true
                 return nil, num_row, end_f
             end
 
@@ -224,13 +225,13 @@ local Lexical = {
             end
         else
             print ('Line error '..num_row..': invalid character "'..buffer.entry..'".')
-            ERROR = true
+            Commons.error = true
             return nil, num_row, end_f
         end
 
-        terminal = Lexical_utils.check_token(terminal)
+        terminal = Lexic_utils.check_token(terminal)
         return terminal, num_row, end_f
     end
 }
 
-return Lexical
+return Lexic
