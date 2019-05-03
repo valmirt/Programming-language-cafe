@@ -14,7 +14,7 @@ Originally developed as a college work, Café is a small programming language th
 For more details on how this project is being developed, access this [FILE](https://github.com/valmirt/Programming-language-cafe/wiki/Project-Information).
 
 ## Contributing
-* Put a star, spread the word and if you want to offer me a free beer [DONATE]().
+* Put a star and spread the word.
 * If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request.
 * When submitting code, please make every effort to follow existing conventions and style in order to keep the code as readable as possible. Please also make sure your code compiles.
 
